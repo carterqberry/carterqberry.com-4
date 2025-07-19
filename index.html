@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carter Quesenberry</title>
+    <link rel="icon" type="png" href="images/earth_favicon3.png">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <!-- font awesome import -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <!--<div class="profile-pic">S</div> -->
+        <nav class="nav">
+            <a href="#portfolio">Projects</a>
+            <a href="#about">About</a>
+            <a href="#resume">Resume</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Hi,<br>I'm <!--<span class="highlight">Carter</span>-->Carter</h1>
+                <p>I love maps, chai lattes, and building things that make people’s lives easier.</p>
+                <p class="welcome">Welcome to my portfolio website :)</p>
+                <a href="#contact" class="cta-button">Contact me</a>
+            </div>
+            <div class="hero-image">
+                <img src="images/nyc_profile copy Background Removed.png" alt="">
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="main-content">
+        <div class="container">
+            <h2 class="section-title">GIS Portfolio</h2>
+            <div class="portfolio-row">
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src= "images/portfolio/CarterQLakeMeadDifferences.jpg"alt=Water Level Change Analysis Map>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Water Level Change Analysis</h3>
+                        <p class="portfolio-date">2017-2022</p>
+                        <p class="portfolio-description">
+                            Comprehensive analysis of water level changes in Lake Mead, Nevada using satellite imagery and historical data. The project utilized ESA Sentinel-1 imagery at 10m resolution to track water level fluctuations over a 5-year period.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">ArcGIS Pro</span>
+                            <span class="tech-tag">Sentinel-1</span>
+                            <span class="tech-tag">Time Series Analysis</span>
+                            <span class="tech-tag">Remote Sensing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/Carter Q UVU Campus Orthomosaic.jpg" alt="UVU Campus Orthomosaic">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">UVU Campus Orthomosaic</h3>
+                        <p class="portfolio-date">10/26/24</p>
+                        <p class="portfolio-description">
+                            High-resolution orthomosaic mapping of Utah Valley University campus using drone photography. The project created a detailed base map for campus planning and facility management purposes with sub-meter accuracy.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Drone Mapping</span>
+                            <span class="tech-tag">Photogrammetry</span>
+                            <span class="tech-tag">Orthomosaic</span>
+                            <span class="tech-tag">Campus Planning</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/Carter Q UVU Campus DEM.jpg" alt="UVU Campus DEM">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">UVU Campus DEM</h3>
+                        <p class="portfolio-date">10/26/24</p>
+                        <p class="portfolio-description">
+                            Digital Elevation Model of Utah Valley University campus showing topographic relief and elevation changes. The DEM provides crucial data for drainage analysis, site planning, and environmental studies with high vertical accuracy.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">LiDAR Processing</span>
+                            <span class="tech-tag">DEM Generation</span>
+                            <span class="tech-tag">Topographic Analysis</span>
+                            <span class="tech-tag">3D Modeling</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/CarterQ_Greenspace_SaratogaSprings.jpg" alt="Greenspace in Saratoga Springs">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Greenspace in Saratoga Springs, Utah</h3>
+                        <p class="portfolio-date">Urban Planning Study</p>
+                        <p class="portfolio-description">
+                            Detailed mapping and analysis of green space distribution in Saratoga Springs, Utah. This study examined urban vegetation patterns, park accessibility, and their relationship to community development and quality of life indicators.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">NDVI Analysis</span>
+                            <span class="tech-tag">Urban Planning</span>
+                            <span class="tech-tag">Spatial Analysis</span>
+                            <span class="tech-tag">Land Use</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/CarterQ_CloudMask_Java_Island.jpg" alt="Cloud Mask over Indonesia">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Cloud Mask over Indonesia</h3>
+                        <p class="portfolio-date">Remote Sensing Project</p>
+                        <p class="portfolio-description">
+                            Advanced cloud masking techniques applied to satellite imagery over Java Island, Indonesia. This project developed automated cloud detection algorithms to improve the quality of remote sensing analysis in tropical regions with frequent cloud cover.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Cloud Detection</span>
+                            <span class="tech-tag">Image Processing</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Landsat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/CarterQ_NDVI_Comparison.jpg" alt="Cloud Mask NDVI Comparison">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Cloud Mask NDVI Comparison</h3>
+                        <p class="portfolio-date">Comparative Analysis</p>
+                        <p class="portfolio-description">
+                            Comparative study examining the effectiveness of different cloud masking techniques on NDVI calculations. This analysis demonstrated the importance of accurate cloud removal for vegetation monitoring and environmental assessment.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">NDVI</span>
+                            <span class="tech-tag">Comparative Analysis</span>
+                            <span class="tech-tag">Quality Assessment</span>
+                            <span class="tech-tag">Vegetation Monitoring</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/CarterQ_DSM_Orthomosaic_Comparison.jpg" alt="Orthomosaic Comparison">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Orthomosaic Comparison</h3>
+                        <p class="portfolio-date">Photogrammetry Study</p>
+                        <p class="portfolio-description">
+                            Detailed comparison of Digital Surface Models (DSM) and orthomosaic products generated from aerial photography. This project evaluated different processing workflows and their impact on final product quality and accuracy.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Photogrammetry</span>
+                            <span class="tech-tag">DSM Generation</span>
+                            <span class="tech-tag">Quality Control</span>
+                            <span class="tech-tag">Aerial Photography</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/CarterQ_UnsupervisedClassificationComparison.jpg" alt="Unsupervised Classifications">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Unsupervised Classifications</h3>
+                        <p class="portfolio-date">Machine Learning Project</p>
+                        <p class="portfolio-description">
+                            Comparative analysis of different unsupervised classification algorithms for land cover mapping. This study evaluated K-means, ISODATA, and other clustering techniques to determine optimal approaches for various landscape types.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Machine Learning</span>
+                            <span class="tech-tag">K-means Clustering</span>
+                            <span class="tech-tag">ISODATA</span>
+                            <span class="tech-tag">Land Cover Mapping</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/Carter Q UVU Unsupervised Landcover Fixed.jpg" alt="Unsupervised UVU Classifications">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Unsupervised UVU Classification</h3>
+                        <p class="portfolio-date">Land Cover Analysis</p>
+                        <p class="portfolio-description">
+                            Unsupervised land cover classification of Utah Valley University campus using high-resolution imagery. This project identified and mapped different land cover types including buildings, vegetation, pavement, and natural areas.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Unsupervised Classification</span>
+                            <span class="tech-tag">Land Cover</span>
+                            <span class="tech-tag">Campus Mapping</span>
+                            <span class="tech-tag">Spectral Analysis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/OremNDVI2022Map.jpg" alt="Orem City NDVI">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Orem City NDVI</h3>
+                        <p class="portfolio-date">2022</p>
+                        <p class="portfolio-description">
+                            Normalized Difference Vegetation Index analysis of Orem City, Utah, providing insights into urban vegetation health and distribution. This analysis supports urban planning decisions and environmental monitoring initiatives.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">NDVI Analysis</span>
+                            <span class="tech-tag">Vegetation Health</span>
+                            <span class="tech-tag">Urban Environment</span>
+                            <span class="tech-tag">Landsat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/OremNDVIDifferencesMap.jpg" alt="Orem City NDVI Changes Over Time">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Orem City NDVI Changes Over Time</h3>
+                        <p class="portfolio-date">Multi-Temporal Study</p>
+                        <p class="portfolio-description">
+                            Time series analysis of vegetation changes in Orem City using multi-temporal NDVI data. This project identified areas of vegetation loss and gain, supporting environmental monitoring and urban development assessment.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Time Series</span>
+                            <span class="tech-tag">Change Detection</span>
+                            <span class="tech-tag">Environmental Monitoring</span>
+                            <span class="tech-tag">Urban Growth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/CarterQ_PCA_UtahSocialVulnerabilitySS.png" alt="Principal Component Analysis">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Principal Component Analysis for Utah Vulnerability</h3>
+                        <p class="portfolio-date">Social Research</p>
+                        <p class="portfolio-description">
+                            Advanced statistical analysis using Principal Component Analysis to assess social vulnerability patterns across Utah communities. This project identified key vulnerability factors and created composite vulnerability indices for policy planning.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">PCA Analysis</span>
+                            <span class="tech-tag">Social Vulnerability</span>
+                            <span class="tech-tag">Statistical Analysis</span>
+                            <span class="tech-tag">Policy Planning</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/CarterQNormalDiffs.jpg" alt="Utah Precipitation Interpolations">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Utah Precipitation Interpolations</h3>
+                        <p class="portfolio-date">Climate Analysis</p>
+                        <p class="portfolio-description">
+                            Spatial interpolation analysis of precipitation patterns across Utah using various geostatistical methods. This project compared different interpolation techniques to create accurate precipitation surface models for climate research.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Spatial Interpolation</span>
+                            <span class="tech-tag">Geostatistics</span>
+                            <span class="tech-tag">Climate Data</span>
+                            <span class="tech-tag">Kriging</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/CarterQ_SupervisedClassificationComparisons.jpg" alt="Supervised Classifications">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Supervised Classifications</h3>
+                        <p class="portfolio-date">Machine Learning</p>
+                        <p class="portfolio-description">
+                            Comparative analysis of supervised classification algorithms including Maximum Likelihood, Support Vector Machine, and Random Forest for land cover mapping. This study evaluated accuracy and performance of different machine learning approaches.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Supervised Learning</span>
+                            <span class="tech-tag">Random Forest</span>
+                            <span class="tech-tag">SVM</span>
+                            <span class="tech-tag">Accuracy Assessment</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/LandSurfaceTempMap.jpg" alt="Land Surface Temperatures">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Land Surface Temperatures</h3>
+                        <p class="portfolio-date">Thermal Analysis</p>
+                        <p class="portfolio-description">
+                            Land surface temperature analysis using thermal infrared satellite imagery to study urban heat island effects and temperature patterns. This project supports climate research and urban planning initiatives through thermal mapping.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Thermal Infrared</span>
+                            <span class="tech-tag">Temperature Mapping</span>
+                            <span class="tech-tag">Urban Heat Island</span>
+                            <span class="tech-tag">Climate Analysis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/Carter Q DEM Difference Comparison.jpg" alt="UVU DEM Comparison">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">UVU DEM Comparison</h3>
+                        <p class="portfolio-date">Elevation Analysis</p>
+                        <p class="portfolio-description">
+                            Multi-temporal Digital Elevation Model comparison of Utah Valley University campus showing elevation changes over time. This analysis identified areas of construction activity, erosion, and landscape modification using high-resolution elevation data.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">DEM Analysis</span>
+                            <span class="tech-tag">Change Detection</span>
+                            <span class="tech-tag">LiDAR</span>
+                            <span class="tech-tag">Temporal Analysis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/HoustonBestBusinessLocations.png" alt="Best Houston Business Locations">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Best Prospect Business Locations in Houston, Texas</h3>
+                        <p class="portfolio-date">Business Intelligence</p>
+                        <p class="portfolio-description">
+                            Comprehensive site suitability analysis for business development in Houston, Texas. This project integrated demographic data, transportation networks, zoning information, and economic indicators to identify optimal locations for commercial development.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Site Suitability</span>
+                            <span class="tech-tag">Business Intelligence</span>
+                            <span class="tech-tag">Demographic Analysis</span>
+                            <span class="tech-tag">Multi-Criteria Decision</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/CarterQShadedRelief.jpg" alt="San Rafael Swell Shaded Relief">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">San Rafael Swell Shaded Relief</h3>
+                        <p class="portfolio-date">Cartographic Design</p>
+                        <p class="portfolio-description">
+                            High-quality shaded relief map of the San Rafael Swell in Utah, showcasing advanced cartographic techniques and terrain visualization. This project emphasized the dramatic topography and geological features of this unique landscape.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Cartographic Design</span>
+                            <span class="tech-tag">Terrain Visualization</span>
+                            <span class="tech-tag">Hillshade</span>
+                            <span class="tech-tag">Map Design</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/CarterQuesenberrySlopeHillShade.jpg" alt="Slope and Hillshade Comparison">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Slope and Hillshade Comparison</h3>
+                        <p class="portfolio-date">Terrain Analysis</p>
+                        <p class="portfolio-description">
+                            Comparative terrain analysis showing slope calculations and hillshade visualizations from digital elevation models. This project demonstrates different techniques for terrain visualization and topographic analysis applications.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Terrain Analysis</span>
+                            <span class="tech-tag">Slope Calculation</span>
+                            <span class="tech-tag">Hillshade</span>
+                            <span class="tech-tag">Topographic Modeling</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/CarterQuesenberryWifiDownloadSpeeds.jpg" alt="Download Speeds and Wifi Status in Utah">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Download Speeds and Wifi Status in Utah</h3>
+                        <p class="portfolio-date">Connectivity Analysis</p>
+                        <p class="portfolio-description">
+                            Comprehensive mapping of internet connectivity and download speeds across Utah communities. This analysis supports digital equity initiatives and infrastructure planning by identifying areas with limited broadband access.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Digital Equity</span>
+                            <span class="tech-tag">Infrastructure Analysis</span>
+                            <span class="tech-tag">Connectivity Mapping</span>
+                            <span class="tech-tag">Broadband Access</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/LA_Population_Map.jpg" alt="Los Angeles Population Map">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Los Angeles Population Map</h3>
+                        <p class="portfolio-date">Demographic Mapping</p>
+                        <p class="portfolio-description">
+                            Detailed population density mapping of Los Angeles County using US Census data. This project utilized advanced symbology and statistical analysis to visualize population patterns, urban density, and demographic distributions across the metropolitan area.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Census Data</span>
+                            <span class="tech-tag">Population Analysis</span>
+                            <span class="tech-tag">Statistical Mapping</span>
+                            <span class="tech-tag">Urban Demographics</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="map-preview">
+                        <img src="images/portfolio/CarterQuesenberrySalemChanges.jpg" alt="Changes in Salem Utah">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Changes in Salem, Utah</h3>
+                        <p class="portfolio-date">Urban Development</p>
+                        <p class="portfolio-description">
+                            Multi-temporal analysis documenting urban development and land use changes in Salem, Utah over time. This project utilized historical imagery and current data to track growth patterns and development trends in this growing community.
+                        </p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Change Detection</span>
+                            <span class="tech-tag">Urban Development</span>
+                            <span class="tech-tag">Historical Analysis</span>
+                            <span class="tech-tag">Growth Patterns</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        Hi! My name is Carter Quesenberry. I graduated from Utah Valley University, with a bachelors is Geography, minor in Computer Science, and Certificate of Proficiency in Geographic Information Systems (GIS). I have worked on various GIS projects, and am excited to showcase them!
+                    </p>
+                    <p>
+                        I'm a passionate about GIS and cartography, especially in a way that helps the public. I have expertise in spatial analysis, remote sensing, and geographic data visualization. My work focuses on creating meaningful maps and analyses that help organizations make informed decisions about their spatial challenges.
+                    </p>
+                    <p>
+                        I love all things maps, I love to read and watch movies, and I find joy in the details. When I’m not mapping or coding, you can find me exploring local coffee shops, catching up on a good book, or enjoying a cozy movie night with friends. I’m excited to keep growing as a GIS professional and to contribute to projects that make a real difference.
+                    </p>
+                </div>
+                <div class="skills-section">
+                    <h3>Technical Skills</h3>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h4>GIS Software</h4>
+                            <ul class="skill-list">
+                                <li>ArcGIS Pro </li>
+                                <li>ArcGIS Enterprise & Online </li>
+                                <li>QGIS</li>
+                                <li>Field Maps</li>
+                                <li>Agisoft Metashape</li>
+                            </ul>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Data Analysis</h4>
+                            <ul class="skill-list">
+                                <li>Remote Sensing</li>
+                                <li>Spatial Analysis</li>
+                                <li>Hydrology Modeling</li>
+                                <li>Statistical Analysis</li>
+                            </ul>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Programming</h4>
+                            <ul class="skill-list">
+                                <li>Python (ArcPy)</li>
+                                <li>R (Spatial Analysis)</li>
+                                <li>JavaScript</li>
+                                <li>SQL</li>
+                            </ul>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Cartography</h4>
+                            <ul class="skill-list">
+                                <li>Map Design</li>
+                                <li>Data Visualization</li>
+                                <li>Adobe Creative Suite</li>
+                                <li>Web Mapping</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Let's Connect</h3>
+                    <p>I'd love to hear from you :)</p>
+                    <br>
+                    
+                    <div class="contact-item">
+                        <a href="mailto:carterqberry@gmail.com"><i class="fa-regular fa-envelope"></i></a> carterqberry@gmail.com
+                    </div>
+                    
+                    <div class="contact-item">
+                        <a href="https://www.linkedin.com/in/carter-quesenberry-358595217/" target="_blank"><i class="fa-brands fa-linkedin"></i></a> LinkedIn
+
+                    </div>
+                    
+                    <div class="contact-item">
+                        <a href="https://github.com/carterqberry" target="_blank"><i class="fa-brands fa-github"></i></a>Github
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fa-solid fa-map-pin pin"></i> Salem, Utah
+                    </div>
+                </div>
+                
+                <form class="contact-form" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" placeholder="Project Inquiry" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Carter Quesenberry.</p>
+        </div>
+    </footer>
+</body>
+</html>
