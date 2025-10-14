@@ -47,12 +47,16 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
   const wrapper = document.querySelector('.portfolio-wrapper');
   if (!row || !wrapper) return;
 
-  // create references to existing scrollbar elements (if you inserted HTML)
   const scrollbar = wrapper.querySelector('.portfolio-scrollbar');
   const track = scrollbar.querySelector('.ps-track');
   const thumb = scrollbar.querySelector('.ps-thumb');
 
-  // helper: update thumb size and position
+  let rafId = null;
+  let isDragging = false;
+  let dragStartX = 0;
+  let thumbStartLeft = 0;
+
+  // Use transform instead of left for better performance
   function updateThumb() {
     const containerWidth = row.clientWidth;
     const contentWidth = row.scrollWidth;
@@ -60,7 +64,7 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
 
     if (contentWidth <= containerWidth) {
       thumb.style.width = trackWidth + 'px';
-      thumb.style.left = '0px';
+      thumb.style.transform = 'translateX(0px)';
       thumb.setAttribute('aria-valuenow', 0);
       thumb.setAttribute('aria-valuemax', 0);
       thumb.setAttribute('aria-disabled', 'true');
@@ -69,15 +73,14 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
     }
 
     const ratio = containerWidth / contentWidth;
-    const thumbWidth = Math.max(Math.floor(trackWidth * ratio), 36); // min size
+    const thumbWidth = Math.max(Math.floor(trackWidth * ratio), 36);
     const maxThumbLeft = trackWidth - thumbWidth;
     const scrollRatio = row.scrollLeft / (contentWidth - containerWidth);
     const thumbLeft = Math.round(scrollRatio * maxThumbLeft);
 
     thumb.style.width = thumbWidth + 'px';
-    thumb.style.left = thumbLeft + 'px';
+    thumb.style.transform = `translateX(${thumbLeft}px)`;
 
-    // set accessible values
     thumb.setAttribute('aria-valuemin', 0);
     thumb.setAttribute('aria-valuemax', Math.max(0, contentWidth - containerWidth));
     thumb.setAttribute('aria-valuenow', row.scrollLeft);
@@ -85,29 +88,40 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
     thumb.style.opacity = 1;
   }
 
-  // sync when user scrolls the row
-  row.addEventListener('scroll', updateThumb, { passive: true });
+  // Debounced update using requestAnimationFrame
+  function scheduleThumbUpdate() {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      updateThumb();
+      rafId = null;
+    });
+  }
 
-  // handle window/element resize
-  const ro = new ResizeObserver(updateThumb);
+  // Sync when user scrolls the row
+  row.addEventListener('scroll', scheduleThumbUpdate, { passive: true });
+
+  // Handle window/element resize
+  const ro = new ResizeObserver(() => {
+    scheduleThumbUpdate();
+  });
   ro.observe(row);
   ro.observe(track);
 
-  // drag logic for the thumb
-  let isDragging = false;
-  let dragStartX = 0;
-  let thumbStartLeft = 0;
-
+  // Drag logic for the thumb
   thumb.addEventListener('mousedown', (e) => {
     isDragging = true;
     dragStartX = e.clientX;
-    thumbStartLeft = parseInt(thumb.style.left || 0, 10);
+    // Get current translateX value
+    const transform = thumb.style.transform;
+    const match = transform.match(/translateX\(([^)]+)px\)/);
+    thumbStartLeft = match ? parseFloat(match[1]) : 0;
     document.documentElement.classList.add('ps-dragging');
     e.preventDefault();
   });
 
   document.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
+    
     const dx = e.clientX - dragStartX;
     const trackWidth = track.clientWidth;
     const thumbWidth = thumb.getBoundingClientRect().width;
@@ -115,11 +129,13 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
     let newLeft = thumbStartLeft + dx;
     newLeft = Math.max(0, Math.min(maxLeft, newLeft));
 
-    // compute corresponding scroll position
-    const scrollRatio = newLeft / maxLeft;
+    // Update thumb position immediately during drag
+    thumb.style.transform = `translateX(${newLeft}px)`;
+
+    // Compute corresponding scroll position
+    const scrollRatio = maxLeft > 0 ? newLeft / maxLeft : 0;
     const maxScrollLeft = row.scrollWidth - row.clientWidth;
     row.scrollLeft = Math.round(scrollRatio * maxScrollLeft);
-    updateThumb();
   });
 
   document.addEventListener('mouseup', () => {
@@ -128,7 +144,7 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
     document.documentElement.classList.remove('ps-dragging');
   });
 
-  // allow clicking on track to jump
+  // Allow clicking on track to jump
   track.addEventListener('click', (e) => {
     if (e.target === thumb) return;
     const rect = track.getBoundingClientRect();
@@ -137,16 +153,15 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
     const newLeft = Math.max(0, clickX - thumbWidth / 2);
     const maxLeft = rect.width - thumbWidth;
     const clamped = Math.min(maxLeft, Math.max(0, newLeft));
-    const scrollRatio = clamped / maxLeft;
+    const scrollRatio = maxLeft > 0 ? clamped / maxLeft : 0;
     const maxScrollLeft = row.scrollWidth - row.clientWidth;
     row.scrollLeft = Math.round(scrollRatio * maxScrollLeft);
-    updateThumb();
   });
 
-  // keyboard support for accessibility (left/right arrows, home/end)
+  // Keyboard support
   thumb.addEventListener('keydown', (e) => {
     const key = e.key;
-    const step = Math.max(30, row.clientWidth * 0.1); // step size
+    const step = Math.max(30, row.clientWidth * 0.1);
     if (key === 'ArrowLeft') {
       row.scrollBy({ left: -step, behavior: 'smooth' });
       e.preventDefault();
@@ -162,10 +177,10 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
     }
   });
 
-  // update on load
+  // Initial update
   requestAnimationFrame(updateThumb);
 
-  // optional: show scrollbar only when content overflows
+  // Toggle scrollbar visibility
   function toggleScrollbarVisibility() {
     if (row.scrollWidth <= row.clientWidth) {
       scrollbar.style.display = 'none';
@@ -173,9 +188,11 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
       scrollbar.style.display = 'block';
     }
   }
+  
   window.addEventListener('resize', () => {
     toggleScrollbarVisibility();
-    updateThumb();
+    scheduleThumbUpdate();
   });
+  
   toggleScrollbarVisibility();
 })();
