@@ -237,7 +237,7 @@ transform: scale(1.02);
     background-color: var(--background-color-alt);
 }
 .portfolio-row {
-    width: 100vw;
+    width: 100%;
     display: flex;
     gap: 2rem;
     overflow-x: auto;
