@@ -178,15 +178,4 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
     updateThumb();
   });
   toggleScrollbarVisibility();
-
-  // If user scrolls with mouse wheel vertically while hovering the row, we prefer horizontal scroll (nice UX)
-  row.addEventListener('wheel', (e) => {
-    // if shift pressed or horizontal wheel, let browser handle
-    if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-    // if vertical wheel over the row, translate into horizontal scroll
-    if (Math.abs(e.deltaY) > 0) {
-      e.preventDefault();
-      row.scrollLeft += e.deltaY;
-    }
-  }, { passive: false });
 })();
