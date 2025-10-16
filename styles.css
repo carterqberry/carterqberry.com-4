@@ -213,6 +213,10 @@ transform: scale(1.02);
         font-size: 3rem;
     }
 
+    .hero-text p {
+        max-width: 300px;
+    }
+
     .profile-placeholder {
         width: 250px;
         height: 250px;
