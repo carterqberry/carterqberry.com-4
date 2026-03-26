@@ -290,21 +290,33 @@ transform: scale(1.02);
   height: 100%;
   left: 0;
   width: 80px; /* will be overridden by JS */
+  --thumb-x: 0px;
+  --thumb-y: 0px;
   border-radius: 8px;
   background: rgba(0,0,0,0.35);
   cursor: pointer;
-  transition: background 0.15s ease, transform 0.08s;
+  transition: background 0.15s ease;
   box-shadow: 0 2px 6px rgba(0,0,0,0.12);
   will-change: transform;
-  transform: translateX(0);
+  transform: translate3d(var(--thumb-x), var(--thumb-y), 0);
+  touch-action: none;
 }
 
 /* thumb hover/focus states */
 .ps-thumb:hover,
 .ps-thumb:focus {
   background: rgba(0,0,0,0.55);
-  transform: translateY(-1px);
+  --thumb-y: -1px;
   outline: none;
+}
+
+.ps-thumb.is-dragging {
+  --thumb-y: 0px;
+  cursor: grabbing;
+}
+
+html.ps-dragging .portfolio-row {
+  scroll-behavior: auto;
 }
 
 /* make sure it does not block clicks below except the track area */
@@ -461,7 +473,8 @@ transform: scale(1.02);
 }
 
 .contact-info h3 {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
+    font-weight: 500;
     margin-bottom: 1.5rem;
     color: var(--text-color);
 }

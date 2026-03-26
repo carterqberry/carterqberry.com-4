@@ -53,18 +53,41 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
 
   let rafId = null;
   let isDragging = false;
-  let dragStartX = 0;
-  let thumbStartLeft = 0;
+  let dragPointerOffsetX = 0;
+  let previousScrollBehavior = '';
 
-  // Use transform instead of left for better performance
-  function updateThumb() {
+  function getMetrics() {
     const containerWidth = row.clientWidth;
     const contentWidth = row.scrollWidth;
     const trackWidth = track.clientWidth;
+    const maxScrollLeft = Math.max(0, contentWidth - containerWidth);
+    const ratio = contentWidth > 0 ? containerWidth / contentWidth : 1;
+    const thumbWidth = maxScrollLeft > 0 ? Math.max(Math.floor(trackWidth * ratio), 36) : trackWidth;
+    const maxThumbLeft = Math.max(0, trackWidth - thumbWidth);
+
+    return {
+      containerWidth,
+      contentWidth,
+      trackWidth,
+      maxScrollLeft,
+      thumbWidth,
+      maxThumbLeft
+    };
+  }
+
+  function updateThumb() {
+    const {
+      containerWidth,
+      contentWidth,
+      trackWidth,
+      maxScrollLeft,
+      thumbWidth,
+      maxThumbLeft
+    } = getMetrics();
 
     if (contentWidth <= containerWidth) {
       thumb.style.width = trackWidth + 'px';
-      thumb.style.transform = 'translateX(0px)';
+      thumb.style.setProperty('--thumb-x', '0px');
       thumb.setAttribute('aria-valuenow', 0);
       thumb.setAttribute('aria-valuemax', 0);
       thumb.setAttribute('aria-disabled', 'true');
@@ -72,17 +95,14 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
       return;
     }
 
-    const ratio = containerWidth / contentWidth;
-    const thumbWidth = Math.max(Math.floor(trackWidth * ratio), 36);
-    const maxThumbLeft = trackWidth - thumbWidth;
-    const scrollRatio = row.scrollLeft / (contentWidth - containerWidth);
+    const scrollRatio = maxScrollLeft > 0 ? row.scrollLeft / maxScrollLeft : 0;
     const thumbLeft = Math.round(scrollRatio * maxThumbLeft);
 
     thumb.style.width = thumbWidth + 'px';
-    thumb.style.transform = `translateX(${thumbLeft}px)`;
+    thumb.style.setProperty('--thumb-x', `${thumbLeft}px`);
 
     thumb.setAttribute('aria-valuemin', 0);
-    thumb.setAttribute('aria-valuemax', Math.max(0, contentWidth - containerWidth));
+    thumb.setAttribute('aria-valuemax', maxScrollLeft);
     thumb.setAttribute('aria-valuenow', row.scrollLeft);
     thumb.removeAttribute('aria-disabled');
     thumb.style.opacity = 1;
@@ -107,55 +127,51 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
   ro.observe(row);
   ro.observe(track);
 
-  // Drag logic for the thumb
-  thumb.addEventListener('mousedown', (e) => {
+  function dragToClientX(clientX, pointerOffsetX = null) {
+    const { maxScrollLeft, thumbWidth, maxThumbLeft } = getMetrics();
+    const rect = track.getBoundingClientRect();
+    const pointerX = clientX - rect.left;
+    const offsetX = pointerOffsetX ?? (thumbWidth / 2);
+    const unclampedLeft = pointerX - offsetX;
+    const thumbLeft = Math.max(0, Math.min(maxThumbLeft, unclampedLeft));
+    const scrollRatio = maxThumbLeft > 0 ? thumbLeft / maxThumbLeft : 0;
+    row.scrollLeft = Math.round(scrollRatio * maxScrollLeft);
+  }
+
+  thumb.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
     isDragging = true;
-    dragStartX = e.clientX;
-    // Get current translateX value
-    const transform = thumb.style.transform;
-    const match = transform.match(/translateX\(([^)]+)px\)/);
-    thumbStartLeft = match ? parseFloat(match[1]) : 0;
+    dragPointerOffsetX = e.clientX - thumb.getBoundingClientRect().left;
+    previousScrollBehavior = row.style.scrollBehavior;
+    row.style.scrollBehavior = 'auto';
     document.documentElement.classList.add('ps-dragging');
+    thumb.classList.add('is-dragging');
+    thumb.setPointerCapture(e.pointerId);
     e.preventDefault();
   });
 
-  document.addEventListener('mousemove', (e) => {
+  thumb.addEventListener('pointermove', (e) => {
     if (!isDragging) return;
-    
-    const dx = e.clientX - dragStartX;
-    const trackWidth = track.clientWidth;
-    const thumbWidth = thumb.getBoundingClientRect().width;
-    const maxLeft = trackWidth - thumbWidth;
-    let newLeft = thumbStartLeft + dx;
-    newLeft = Math.max(0, Math.min(maxLeft, newLeft));
-
-    // Update thumb position immediately during drag
-    thumb.style.transform = `translateX(${newLeft}px)`;
-
-    // Compute corresponding scroll position
-    const scrollRatio = maxLeft > 0 ? newLeft / maxLeft : 0;
-    const maxScrollLeft = row.scrollWidth - row.clientWidth;
-    row.scrollLeft = Math.round(scrollRatio * maxScrollLeft);
+    dragToClientX(e.clientX, dragPointerOffsetX);
   });
 
-  document.addEventListener('mouseup', () => {
+  function stopDragging() {
     if (!isDragging) return;
     isDragging = false;
+    dragPointerOffsetX = 0;
+    row.style.scrollBehavior = previousScrollBehavior;
     document.documentElement.classList.remove('ps-dragging');
-  });
+    thumb.classList.remove('is-dragging');
+  }
+
+  thumb.addEventListener('pointerup', stopDragging);
+  thumb.addEventListener('pointercancel', stopDragging);
+  thumb.addEventListener('lostpointercapture', stopDragging);
 
   // Allow clicking on track to jump
-  track.addEventListener('click', (e) => {
+  track.addEventListener('pointerdown', (e) => {
     if (e.target === thumb) return;
-    const rect = track.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const thumbWidth = thumb.getBoundingClientRect().width;
-    const newLeft = Math.max(0, clickX - thumbWidth / 2);
-    const maxLeft = rect.width - thumbWidth;
-    const clamped = Math.min(maxLeft, Math.max(0, newLeft));
-    const scrollRatio = maxLeft > 0 ? clamped / maxLeft : 0;
-    const maxScrollLeft = row.scrollWidth - row.clientWidth;
-    row.scrollLeft = Math.round(scrollRatio * maxScrollLeft);
+    dragToClientX(e.clientX);
   });
 
   // Keyboard support
