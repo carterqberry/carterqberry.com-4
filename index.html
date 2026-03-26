@@ -3,529 +3,1115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carter Quesenberry</title>
-    <link rel="icon" type="png" href="images/earth_favicon3.png">
-    <link rel="stylesheet" href="styles.css">
+    <title>Carter Quesenberry — GIS Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
     <script defer src="script.js"></script>
-    <!-- font awesome import -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+    :root {
+        --void:      #060a12;
+        --deep:      #0d1520;
+        --panel:     #111827;
+        --rim:       #1e2d42;
+        --mist:      #8da3bc;
+        --star:      #e8f0fa;
+        --accent:    #4a9eff;
+        --accent2:   #7cc4ff;
+        --glow:      rgba(74,158,255,0.18);
+        --planet1:   #3d7abf;
+        --planet2:   #5ba3d9;
+        --ring:      rgba(124,196,255,0.25);
+        --sans: 'DM Sans', sans-serif;
+        --serif: 'DM Serif Display', serif;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+        background: var(--void);
+        color: var(--star);
+        font-family: var(--sans);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    /* ── STARS ── */
+    .starfield {
+        position: fixed; inset: 0; z-index: 0; pointer-events: none;
+        background:
+            radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.7) 0%, transparent 100%),
+            radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.5) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 40% 8%,  rgba(255,255,255,0.8) 0%, transparent 100%),
+            radial-gradient(1px 1px at 55% 25%, rgba(255,255,255,0.4) 0%, transparent 100%),
+            radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 85% 12%, rgba(255,255,255,0.9) 0%, transparent 100%),
+            radial-gradient(1px 1px at 92% 45%, rgba(255,255,255,0.5) 0%, transparent 100%),
+            radial-gradient(1px 1px at 18% 72%, rgba(255,255,255,0.4) 0%, transparent 100%),
+            radial-gradient(1px 1px at 33% 85%, rgba(255,255,255,0.6) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 60% 78%, rgba(255,255,255,0.7) 0%, transparent 100%),
+            radial-gradient(1px 1px at 78% 90%, rgba(255,255,255,0.5) 0%, transparent 100%),
+            radial-gradient(1px 1px at 48% 55%, rgba(255,255,255,0.3) 0%, transparent 100%),
+            radial-gradient(1px 1px at 5%  35%, rgba(255,255,255,0.6) 0%, transparent 100%),
+            radial-gradient(1px 1px at 96% 80%, rgba(255,255,255,0.4) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 15% 92%, rgba(255,255,255,0.5) 0%, transparent 100%);
+    }
+
+    /* ── NAV ── */
+    .header {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+        padding: 20px 56px;
+        display: flex; align-items: center; justify-content: space-between;
+        border-bottom: 1px solid transparent;
+        transition: all 0.4s ease;
+    }
+    .header.scrolled {
+        background: rgba(6,10,18,0.85);
+        backdrop-filter: blur(20px);
+        border-bottom-color: var(--rim);
+    }
+
+    .logo {
+        font-family: var(--serif);
+        font-size: 1.1rem;
+        color: var(--star);
+        text-decoration: none;
+        display: flex; align-items: center; gap: 10px;
+        letter-spacing: 0.01em;
+    }
+
+    .logo-planet {
+        width: 28px; height: 28px; border-radius: 50%;
+        background: radial-gradient(circle at 35% 35%, var(--planet2), var(--planet1) 60%, #1a3a5c);
+        box-shadow: 0 0 12px rgba(74,158,255,0.4), inset -4px -4px 8px rgba(0,0,0,0.4);
+        position: relative; flex-shrink: 0;
+        animation: orbit-logo 6s ease-in-out infinite;
+    }
+    .logo-planet::after {
+        content: '';
+        position: absolute; top: 50%; left: 50%;
+        width: 140%; height: 30%;
+        border: 1.5px solid rgba(124,196,255,0.4);
+        border-radius: 50%;
+        transform: translate(-50%, -50%) rotateX(65deg);
+    }
+
+    @keyframes orbit-logo {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+    }
+
+    .nav { display: flex; gap: 4px; align-items: center; }
+    .nav a {
+        color: var(--mist);
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        padding: 8px 18px;
+        border-radius: 100px;
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+    }
+    .nav a:hover {
+        color: var(--star);
+        background: rgba(74,158,255,0.08);
+        border-color: var(--rim);
+    }
+
+    /* ── HERO ── */
+    .hero {
+        min-height: 100vh;
+        display: flex; align-items: center;
+        padding: 120px 56px 80px;
+        position: relative; overflow: hidden;
+        background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(30,50,90,0.5) 0%, transparent 70%);
+    }
+
+    .hero-content {
+        max-width: 1200px; margin: 0 auto; width: 100%;
+        display: grid; grid-template-columns: 1fr auto;
+        gap: 80px; align-items: center; position: relative; z-index: 2;
+    }
+
+    .hero-eyebrow {
+        display: inline-flex; align-items: center; gap: 8px;
+        color: var(--accent2); font-size: 0.78rem;
+        font-weight: 500; letter-spacing: 0.12em;
+        text-transform: uppercase; margin-bottom: 24px;
+    }
+    .hero-eyebrow::before {
+        content: '';
+        width: 24px; height: 1px; background: var(--accent2);
+    }
+
+    .hero h1 {
+        font-family: var(--serif);
+        font-size: clamp(3rem, 6vw, 5rem);
+        font-weight: 400;
+        color: var(--star);
+        line-height: 1.08;
+        margin-bottom: 24px;
+        letter-spacing: -0.01em;
+    }
+    .hero h1 em {
+        font-style: italic;
+        color: var(--accent2);
+    }
+
+    .hero-tagline {
+        font-size: 1rem;
+        font-weight: 300;
+        color: var(--mist);
+        max-width: 400px;
+        margin-bottom: 44px;
+        line-height: 1.75;
+    }
+
+    .hero-cta {
+        display: inline-flex; align-items: center; gap: 10px;
+        background: transparent;
+        color: var(--star);
+        text-decoration: none;
+        padding: 13px 30px;
+        border-radius: 100px;
+        font-size: 0.88rem;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        border: 1px solid rgba(74,158,255,0.5);
+        transition: all 0.3s ease;
+        position: relative; overflow: hidden;
+    }
+    .hero-cta::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: var(--glow);
+        opacity: 0; transition: opacity 0.3s ease;
+    }
+    .hero-cta:hover { border-color: var(--accent); color: var(--accent2); }
+    .hero-cta:hover::before { opacity: 1; }
+
+    /* ── PLANET ILLUSTRATION ── */
+    .hero-planet-wrap {
+        flex-shrink: 0;
+        position: relative;
+        display: flex; align-items: center; justify-content: center;
+        width: 400px; height: 400px;
+        transform: translateX(-100px);
+    }
+
+    /* Ambient glow behind planet */
+    .planet-glow {
+        position: absolute; inset: -40px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(74,158,255,0.12) 0%, transparent 70%);
+        animation: pulse-glow 4s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.08); opacity: 0.7; }
+    }
+
+    /* Main planet */
+    .planet-body {
+        width: 290px; height: 290px; border-radius: 50%;
+        position: relative; z-index: 3;
+        background: radial-gradient(circle at 38% 32%, #5ba8e0 0%, #3472a8 35%, #1e4878 65%, #0d2140 100%);
+        box-shadow:
+            0 0 60px rgba(74,158,255,0.2),
+            0 0 120px rgba(74,158,255,0.08),
+            inset -20px -20px 40px rgba(0,0,0,0.5),
+            inset 8px 8px 20px rgba(255,255,255,0.05);
+        overflow: hidden;
+        animation: planet-spin 40s linear infinite;
+    }
+
+    @keyframes planet-spin { to { transform: rotate(360deg); } }
+
+    .planet-body svg { width: 100%; height: 100%; opacity: 0.85; }
+
+    /* Ring system */
+    .planet-ring-wrap {
+        position: absolute; z-index: 2;
+        width: 450px; height: 450px;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%) rotateX(72deg);
+        pointer-events: none;
+    }
+    .planet-ring {
+        position: absolute; top: 50%; left: 50%;
+        border-radius: 50%; border: 2px solid rgba(124,196,255,0.3);
+        transform: translate(-50%, -50%);
+    }
+    .planet-ring:nth-child(1) { width: 345px; height: 345px; border-color: rgba(124,196,255,0.2); }
+    .planet-ring:nth-child(2) { width: 390px; height: 390px; border-color: rgba(124,196,255,0.15); }
+    .planet-ring:nth-child(3) { width: 440px; height: 440px; border-color: rgba(124,196,255,0.08); }
+
+    /* Orbiting moon */
+    .moon-orbit {
+        position: absolute; z-index: 4;
+        width: 370px; height: 370px;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        animation: moon-spin 50s linear infinite;
+    }
+    .moon {
+        position: absolute; top: 0; left: 50%;
+        width: 44px; height: 44px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #ddeaf5 0%, #9ab4c8 45%, #5a7a96 70%, #2e4d6a 100%);
+        box-shadow: 0 0 16px rgba(200,216,232,0.5), inset -7px -7px 14px rgba(0,0,0,0.45), inset 3px 3px 8px rgba(255,255,255,0.08);
+        transform: translateX(-50%) translateY(-50%);
+        animation: moon-self-spin 18s linear infinite;
+        overflow: hidden;
+    }
+    .moon svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    @keyframes moon-spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+    @keyframes moon-self-spin { to { transform: translateX(-50%) translateY(-50%) rotate(360deg); } }
+
+    /* Photo bubble */
+    .photo-frame {
+        position: absolute; bottom: 0; right: -10px;
+        width: 130px; height: 130px; border-radius: 50%; z-index: 5;
+        border: 2px solid var(--rim);
+        outline: 1px solid rgba(74,158,255,0.3);
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px var(--rim);
+        background: var(--deep);
+    }
+    .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ── SHARED SECTION ── */
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 56px; }
+
+    .section-eyebrow {
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 12px;
+        display: flex; align-items: center; gap: 10px;
+    }
+    .section-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+
+    .section-title {
+        font-family: var(--serif);
+        font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+        font-weight: 400;
+        color: var(--star);
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+    }
+
+    /* ── PORTFOLIO ── */
+    .portfolio-section {
+        padding: 100px 0 80px;
+        background: linear-gradient(to bottom, transparent, rgba(13,21,32,0.8) 20%, rgba(13,21,32,0.8) 80%, transparent);
+    }
+
+    .section-header { margin-bottom: 52px; }
+
+    .portfolio-row {
+        display: flex; gap: 18px; overflow-x: auto;
+        padding: 8px 4px 20px; scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        cursor: grab; user-select: none;
+    }
+    .portfolio-row:active { cursor: grabbing; }
+    .portfolio-row::-webkit-scrollbar { display: none; }
+
+    .portfolio-item {
+        flex: 0 0 300px; scroll-snap-align: start;
+        background: var(--panel);
+        border: 1px solid var(--rim);
+        border-radius: 16px; overflow: hidden;
+        transition: transform 0.3s var(--ease), box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .portfolio-item:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(74,158,255,0.2);
+        border-color: rgba(74,158,255,0.25);
+    }
+
+    .map-preview {
+        height: 190px; overflow: hidden;
+        position: relative; background: var(--deep);
+    }
+    .map-preview img {
+        width: 100%; height: 100%; object-fit: cover;
+        transition: transform 0.6s ease; display: block;
+        filter: brightness(0.92);
+    }
+    .portfolio-item:hover .map-preview img { transform: scale(1.05); filter: brightness(1); }
+
+    .map-badge {
+        position: absolute; top: 12px; right: 12px; z-index: 2;
+        background: rgba(6,10,18,0.75);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(74,158,255,0.3);
+        border-radius: 100px; padding: 3px 11px;
+        font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em;
+        color: var(--accent2);
+    }
+
+    .portfolio-content { padding: 20px 22px 24px; }
+
+    .portfolio-title {
+        font-size: 0.95rem; font-weight: 600;
+        color: var(--star); margin-bottom: 4px; line-height: 1.4;
+    }
+
+    .portfolio-date {
+        font-size: 0.73rem; font-weight: 400;
+        color: var(--accent); margin-bottom: 12px; letter-spacing: 0.04em;
+    }
+
+    .portfolio-description {
+        font-size: 0.82rem; color: var(--mist); line-height: 1.65;
+        margin-bottom: 16px;
+        display: -webkit-box; -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical; overflow: hidden;
+    }
+
+    .portfolio-tech { display: flex; flex-wrap: wrap; gap: 5px; }
+
+    .tech-tag {
+        font-size: 0.68rem; font-weight: 500; letter-spacing: 0.03em;
+        padding: 3px 10px; border-radius: 100px;
+        background: transparent; color: var(--mist);
+        border: 1px solid var(--rim);
+        transition: all 0.2s ease;
+    }
+    .tech-tag:hover { border-color: var(--accent); color: var(--accent2); background: var(--glow); }
+
+    .portfolio-scrollbar { margin-top: 16px; padding: 0 4px; }
+    .ps-track {
+        height: 1px; background: var(--rim); position: relative;
+    }
+    .ps-thumb {
+        position: absolute; top: -2px; left: 0;
+        height: 5px; width: 60px; border-radius: 100px;
+        background: var(--accent); cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .drag-hint {
+        display: flex; align-items: center; gap: 8px;
+        margin-top: 18px; font-size: 0.72rem;
+        color: rgba(141,163,188,0.5); letter-spacing: 0.05em;
+    }
+
+    /* ── ABOUT ── */
+    .about-section {
+        padding: 100px 0;
+        position: relative;
+        overflow: hidden;
+        background: radial-gradient(ellipse 70% 80% at 5% 50%, rgba(60,18,12,0.45) 0%, transparent 65%);
+    }
+
+    /* Red planet floating left */
+    .about-planet-wrap {
+        position: absolute;
+        left: -90px; top: calc(50% + 270px);
+        transform: translateY(-50%);
+        width: 260px; height: 260px;
+        display: flex; align-items: center; justify-content: center;
+        pointer-events: none; z-index: 0;
+    }
+    .about-planet-glow {
+        position: absolute; inset: -30px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(200,70,40,0.18) 0%, transparent 70%);
+        animation: pulse-glow 5s ease-in-out infinite 1s;
+    }
+    .about-planet-body {
+        width: 180px; height: 180px; border-radius: 50%;
+        background: radial-gradient(circle at 36% 30%, #d46a44 0%, #a83020 38%, #6a1510 68%, #2e0a08 100%);
+        box-shadow:
+            0 0 50px rgba(200,60,30,0.25),
+            0 0 100px rgba(200,60,30,0.1),
+            inset -16px -16px 32px rgba(0,0,0,0.55),
+            inset 6px 6px 16px rgba(255,160,100,0.06);
+        overflow: hidden;
+        animation: planet-spin 55s linear infinite reverse;
+    }
+    .about-planet-body svg { width: 100%; height: 100%; opacity: 0.9; }
+
+    /* Red-tinted skill dots & accents */
+    .about-section .section-eyebrow { color: #d4734a; }
+    .about-section .section-eyebrow::before { background: #d4734a; }
+    .about-section .skill-category h4 { color: #c4613a; }
+    .about-section .skill-category:hover { border-color: rgba(200,80,50,0.35); }
+    .about-section .skill-list li::before { background: rgba(200,80,50,0.55); }
+    .about-section .tech-tag:hover { border-color: #c4613a; color: #e8886a; background: rgba(200,80,50,0.12); }
+
+    .about-content {
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 72px; align-items: start; margin-top: 52px;
+        position: relative; z-index: 1;
+    }
+
+    .about-text p {
+        font-size: 0.92rem;
+        font-weight: 300;
+        color: var(--mist);
+        line-height: 1.85; margin-bottom: 20px;
+    }
+    .about-text p:first-child {
+        font-size: 1rem; color: var(--star); font-weight: 400;
+    }
+
+    .skills-box {
+        background: var(--panel);
+        border: 1px solid var(--rim);
+        border-radius: 20px; padding: 36px;
+    }
+    .skills-box h3 {
+        font-family: var(--serif);
+        font-size: 1.3rem; font-weight: 400;
+        color: var(--star); margin-bottom: 28px;
+        letter-spacing: -0.01em;
+    }
+
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .skill-category {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--rim);
+        border-radius: 12px; padding: 18px 20px;
+        transition: border-color 0.2s ease;
+    }
+    .skill-category:hover { border-color: rgba(74,158,255,0.3); }
+
+    .skill-category h4 {
+        font-size: 0.68rem; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 0.12em;
+        color: var(--accent); margin-bottom: 14px;
+    }
+
+    .skill-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    .skill-list li {
+        font-size: 0.82rem; font-weight: 300;
+        color: var(--mist); display: flex; align-items: center; gap: 9px;
+    }
+    .skill-list li::before {
+        content: '';
+        width: 4px; height: 4px; border-radius: 50%;
+        background: rgba(74,158,255,0.5); flex-shrink: 0;
+    }
+
+    /* ── CONTACT ── */
+    .contact-section {
+        padding: 100px 0 120px;
+        position: relative; overflow: hidden;
+    }
+
+    /* Decorative moon — contact section top-right */
+    .contact-moon-wrap {
+        position: absolute;
+        right: -60px; top: 60px;
+        width: 220px; height: 220px;
+        pointer-events: none; z-index: 0;
+    }
+    .contact-moon-body {
+        width: 160px; height: 160px; border-radius: 50%;
+        background: radial-gradient(circle at 38% 32%, #d8e4f0 0%, #9ab4c8 40%, #5a7a96 70%, #2a4560 100%);
+        box-shadow:
+            0 0 40px rgba(180,210,240,0.12),
+            inset -14px -14px 28px rgba(0,0,0,0.5),
+            inset 5px 5px 14px rgba(255,255,255,0.06);
+        overflow: hidden;
+        position: relative;
+        animation: planet-spin 35s linear infinite;
+    }
+    /* Craters */
+    .contact-moon-body::before {
+        content: '';
+        position: absolute;
+        width: 28px; height: 28px; border-radius: 50%;
+        background: rgba(0,0,0,0.15);
+        box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3);
+        top: 38px; left: 44px;
+    }
+    .contact-moon-body::after {
+        content: '';
+        position: absolute;
+        width: 16px; height: 16px; border-radius: 50%;
+        background: rgba(0,0,0,0.12);
+        box-shadow: inset 1px 1px 3px rgba(0,0,0,0.25);
+        top: 90px; left: 80px;
+    }
+    .contact-moon-glow {
+        position: absolute; inset: -20px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(180,210,240,0.08) 0%, transparent 70%);
+        animation: pulse-glow 6s ease-in-out infinite 2s;
+    }
+    /* Small crater via sibling span */
+    .contact-moon-crater {
+        position: absolute;
+        width: 10px; height: 10px; border-radius: 50%;
+        background: rgba(0,0,0,0.1);
+        box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
+        top: 55px; left: 105px;
+    }
+    .contact-section .contact-content {
+        position: relative; z-index: 1;
+    }
+
+    .contact-content {
+        display: grid; grid-template-columns: 1fr 1.4fr;
+        gap: 64px; align-items: start; margin-top: 52px;
+    }
+
+    .contact-info-box {
+        background: var(--panel);
+        border: 1px solid var(--rim);
+        border-radius: 20px; padding: 36px;
+    }
+    .contact-info-box h3 {
+        font-family: var(--serif);
+        font-size: 1.3rem; font-weight: 400;
+        color: var(--star); margin-bottom: 10px;
+        letter-spacing: -0.01em;
+    }
+    .contact-info-box > p {
+        font-size: 0.88rem; font-weight: 300;
+        color: var(--mist); line-height: 1.7; margin-bottom: 32px;
+    }
+
+    .contact-links { display: flex; flex-direction: column; gap: 16px; }
+
+    .contact-item {
+        display: flex; align-items: center; gap: 14px;
+        font-size: 0.88rem; font-weight: 300; color: var(--mist);
+    }
+
+    .contact-item a.icon-btn {
+        display: flex; align-items: center; justify-content: center;
+        width: 38px; height: 38px; border-radius: 10px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--rim);
+        color: var(--mist); text-decoration: none; font-size: 0.9rem;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+    }
+    .contact-item a.icon-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent2);
+        background: var(--glow);
+    }
+    .contact-item .icon-static {
+        display: flex; align-items: center; justify-content: center;
+        width: 38px; height: 38px; border-radius: 10px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--rim);
+        color: var(--mist); font-size: 0.9rem; flex-shrink: 0;
+    }
+
+    .contact-form {
+        background: var(--panel);
+        border: 1px solid var(--rim);
+        border-radius: 20px; padding: 40px;
+    }
+
+    .form-group { margin-bottom: 22px; }
+    .form-group label {
+        display: block;
+        font-size: 0.72rem; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 0.1em;
+        color: var(--mist); margin-bottom: 8px;
+    }
+    .form-group input, .form-group textarea {
+        width: 100%;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--rim);
+        border-radius: 10px; padding: 12px 16px;
+        color: var(--star);
+        font-family: var(--sans); font-size: 0.88rem;
+        font-weight: 300; outline: none; resize: vertical;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(141,163,188,0.35); }
+    .form-group input:focus, .form-group textarea:focus {
+        border-color: rgba(74,158,255,0.5);
+        box-shadow: 0 0 0 3px rgba(74,158,255,0.07);
+    }
+
+    .submit-btn {
+        width: 100%; padding: 14px;
+        background: rgba(74,158,255,0.1);
+        color: var(--star);
+        border: 1px solid rgba(74,158,255,0.4);
+        border-radius: 100px;
+        font-family: var(--sans); font-size: 0.9rem;
+        font-weight: 500; letter-spacing: 0.04em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .submit-btn:hover {
+        background: rgba(74,158,255,0.18);
+        border-color: var(--accent);
+        color: var(--accent2);
+        box-shadow: 0 0 24px rgba(74,158,255,0.12);
+    }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+        width: 100%; height: 1px;
+        background: linear-gradient(to right, transparent, var(--rim), transparent);
+        margin: 0 auto;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+        border-top: 1px solid var(--rim);
+        padding: 28px 56px;
+        display: flex; align-items: center; justify-content: space-between;
+        font-size: 0.78rem; font-weight: 300;
+        color: rgba(141,163,188,0.5);
+    }
+    footer .footer-logo {
+        font-family: var(--serif);
+        color: rgba(232,240,250,0.5);
+        font-size: 0.88rem;
+    }
+
+    /* ── REVEAL ── */
+    .reveal {
+        opacity: 0; transform: translateY(24px);
+        transition: opacity 0.7s ease, transform 0.7s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+        .header { padding: 14px 24px; }
+        .nav a { padding: 6px 12px; font-size: 0.8rem; }
+        .hero { padding: 100px 24px 60px; }
+        .hero-content { grid-template-columns: 1fr; gap: 48px; }
+        .hero-planet-wrap { order: -1; margin: 0 auto; margin-left: auto; transform: none; }
+        .container { padding: 0 24px; }
+        .about-content, .contact-content { grid-template-columns: 1fr; gap: 36px; }
+        .skills-grid { grid-template-columns: 1fr 1fr; }
+        footer { flex-direction: column; gap: 8px; text-align: center; padding: 24px; }
+        .portfolio-item { flex: 0 0 268px; }
+        /* Red planet: move up 2.5 planets (~450px) from its desktop position, flip to right side */
+        .about-planet-wrap {
+            left: auto;
+            right: -90px;
+            top: calc(50% + 270px - 450px);
+        }
+        .about-section {
+            background: radial-gradient(ellipse 70% 60% at 95% 20%, rgba(60,18,12,0.45) 0%, transparent 65%);
+        }
+    }
+    /* Remove default link styles */
+    #emailLink, #emailText {
+        color: inherit;         /* Use the surrounding text color */
+        text-decoration: none;  /* Remove underline */
+        cursor: pointer;        /* Make it clear it’s clickable */
+    }
+
+    /* Optional: hover effect */
+    #emailLink:hover, #emailText:hover {
+        color: #f04;            /* Change color on hover */
+        text-decoration: underline; /* Optional: underline on hover */
+    }
+    </style>
 </head>
 
 <body>
-    <!-- Header -->
-    <header class="header">
-        <!--<div class="profile-pic">S</div> -->
+
+    <div class="starfield" aria-hidden="true"></div>
+
+    <header class="header" id="siteHeader">
+        <a href="#" class="logo">
+            <div class="logo-planet"></div>
+            Carter Quesenberry
+        </a>
         <nav class="nav">
             <a href="#portfolio">Projects</a>
             <a href="#about">About</a>
-            <a href="#resume">Resume</a>
             <a href="#contact">Contact</a>
         </nav>
     </header>
 
-    <!-- Hero Section -->
+    <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
             <div class="hero-text">
-                <h1>Hi,<br>I'm <!--<span class="highlight">Carter</span>-->Carter</h1>
-                <p>I love maps, chai lattes, and building things that make people’s lives easier.</p>
-                <p class="welcome">Welcome to my portfolio website :)</p>
-                <a href="#contact" class="cta-button">Contact me</a>
+                <div class="hero-eyebrow">
+                    GIS Analyst &amp; Cartographer
+                </div>
+                <h1>Hi, I'm<br><em>Carter.</em></h1>
+                <p class="hero-tagline">I love maps, chai lattes, and building things that make people's lives easier. Welcome to my portfolio :)</p>
+                <a href="#contact" class="hero-cta">
+                    <i class="fa-regular fa-envelope" style="font-size:0.8em"></i> Say Hello
+                </a>
             </div>
-            <div class="hero-image">
-                <img src="images/carterquesenberry_portfolio_pic.jpeg" alt="">
+
+            <div class="hero-planet-wrap">
+                <div class="planet-glow"></div>
+
+                <!-- Ring system (behind planet) -->
+                <div class="planet-ring-wrap">
+                    <div class="planet-ring"></div>
+                    <div class="planet-ring"></div>
+                    <div class="planet-ring"></div>
+                </div>
+
+                <!-- Orbiting moon -->
+                <div class="moon-orbit">
+                    <div class="moon">
+                        <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="14" cy="16" r="7" fill="rgba(0,0,0,0.18)" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+                            <circle cx="14" cy="16" r="5" fill="rgba(0,0,0,0.12)"/>
+                            <circle cx="30" cy="26" r="5" fill="rgba(0,0,0,0.15)" stroke="rgba(255,255,255,0.06)" stroke-width="0.6"/>
+                            <circle cx="22" cy="34" r="3" fill="rgba(0,0,0,0.12)"/>
+                            <circle cx="34" cy="13" r="2.5" fill="rgba(0,0,0,0.1)" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/>
+                            <circle cx="9" cy="30" r="2" fill="rgba(0,0,0,0.1)"/>
+                            <path d="M6 22 Q14 19 24 22 Q32 25 38 22" stroke="rgba(255,255,255,0.05)" stroke-width="0.8" fill="none"/>
+                            <ellipse cx="16" cy="12" rx="8" ry="5" fill="rgba(255,255,255,0.06)" transform="rotate(-20 16 12)"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Planet -->
+                <div class="planet-body">
+                    <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="240" height="240" fill="none"/>
+                        <!-- ocean base is the background; add landmasses -->
+                        <!-- North America -->
+                        <path d="M20 55 Q48 36 78 50 Q90 64 85 82 Q70 98 66 114 Q55 124 42 118 Q28 103 22 82 Z" fill="rgba(60,160,80,0.55)" stroke="rgba(100,200,120,0.6)" stroke-width="1.5"/>
+                        <!-- Greenland -->
+                        <ellipse cx="92" cy="40" rx="12" ry="8" fill="rgba(200,220,240,0.3)" stroke="rgba(200,220,240,0.4)" stroke-width="1"/>
+                        <!-- Europe -->
+                        <path d="M122 44 Q144 36 152 54 Q156 68 148 82 Q140 90 132 86 Q122 76 122 60 Z" fill="rgba(60,160,80,0.55)" stroke="rgba(100,200,120,0.6)" stroke-width="1.5"/>
+                        <!-- Africa -->
+                        <path d="M128 90 Q148 84 156 108 Q158 132 148 152 Q134 162 120 152 Q110 135 116 114 Z" fill="rgba(60,160,80,0.55)" stroke="rgba(100,200,120,0.6)" stroke-width="1.5"/>
+                        <!-- Asia -->
+                        <path d="M160 38 Q196 30 214 48 Q228 64 222 84 Q210 100 190 104 Q172 107 160 92 Q150 76 158 56 Z" fill="rgba(60,160,80,0.55)" stroke="rgba(100,200,120,0.6)" stroke-width="1.5"/>
+                        <!-- Australia -->
+                        <ellipse cx="198" cy="160" rx="24" ry="17" fill="rgba(60,160,80,0.5)" stroke="rgba(100,200,120,0.55)" stroke-width="1.5" transform="rotate(-10 198 160)"/>
+                        <!-- South America -->
+                        <path d="M60 136 Q76 128 84 144 Q88 160 80 184 Q70 202 58 200 Q44 194 40 178 Q36 160 46 146 Z" fill="rgba(60,160,80,0.55)" stroke="rgba(100,200,120,0.6)" stroke-width="1.5"/>
+                        <!-- Ice caps -->
+                        <ellipse cx="120" cy="6" rx="48" ry="14" fill="rgba(200,224,248,0.2)"/>
+                        <ellipse cx="120" cy="234" rx="40" ry="12" fill="rgba(200,224,248,0.15)"/>
+                        <!-- Latitude lines -->
+                        <line x1="0" y1="120" x2="240" y2="120" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                        <line x1="120" y1="0" x2="120" y2="240" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                        <ellipse cx="120" cy="120" rx="120" ry="44" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+                        <!-- Atmosphere highlight -->
+                        <ellipse cx="82" cy="72" rx="30" ry="20" fill="rgba(255,255,255,0.04)" transform="rotate(-20 82 72)"/>
+                    </svg>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="main-content">
+    <!-- PORTFOLIO -->
+    <section id="portfolio" class="portfolio-section">
         <div class="container">
-            <h2 class="section-title">GIS Portfolio</h2>
+            <div class="section-header reveal">
+                <p class="section-eyebrow">Work</p>
+                <h2 class="section-title">GIS Portfolio</h2>
+            </div>
+
             <div class="portfolio-wrapper">
-                <div class="portfolio-row">
+                <div class="portfolio-row" id="portfolioRow">
+
                     <div class="portfolio-item">
-                        <div class="map-preview">
-                            <img src= "images/portfolio/CarterQLakeMeadDifferences.jpg"alt=Water Level Change Analysis Map>
+                        <div class="map-preview"><span class="map-badge">Remote Sensing</span>
+                            <img src="images/portfolio/CarterQLakeMeadDifferences.jpg" alt="Water Level Change Analysis">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">Water Level Change Analysis</h3>
-                            <p class="portfolio-date">2017-2022</p>
-                            <p class="portfolio-description">
-                                Comprehensive analysis of water level changes in Lake Mead, Nevada using satellite imagery and historical data. The project utilized ESA Sentinel-1 imagery at 10m resolution to track water level fluctuations over a 5-year period.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">ArcGIS Pro</span>
-                                <span class="tech-tag">Sentinel-1</span>
-                                <span class="tech-tag">Time Series Analysis</span>
-                                <span class="tech-tag">Remote Sensing</span>
-                            </div>
+                            <p class="portfolio-date">2017 – 2022 · Lake Mead, NV</p>
+                            <p class="portfolio-description">Tracking water level changes in Lake Mead using ESA Sentinel-1 imagery at 10m resolution over a 5-year period.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">ArcGIS Pro</span><span class="tech-tag">Sentinel-1</span><span class="tech-tag">Time Series</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
+                        <div class="map-preview"><span class="map-badge">Drone Mapping</span>
                             <img src="images/portfolio/Carter Q UVU Campus Orthomosaic.jpg" alt="UVU Campus Orthomosaic">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">UVU Campus Orthomosaic</h3>
-                            <p class="portfolio-date">10/26/24</p>
-                            <p class="portfolio-description">
-                                High-resolution orthomosaic mapping of Utah Valley University campus using drone photography. The project created a detailed base map for campus planning and facility management purposes with sub-meter accuracy.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Drone Mapping</span>
-                                <span class="tech-tag">Photogrammetry</span>
-                                <span class="tech-tag">Orthomosaic</span>
-                                <span class="tech-tag">Campus Planning</span>
-                            </div>
+                            <p class="portfolio-date">10/26/24 · Orem, UT</p>
+                            <p class="portfolio-description">High-resolution drone orthomosaic of UVU campus with sub-meter accuracy for campus planning and facility management.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">Drone Mapping</span><span class="tech-tag">Photogrammetry</span><span class="tech-tag">Orthomosaic</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
+                        <div class="map-preview"><span class="map-badge">Elevation</span>
                             <img src="images/portfolio/Carter Q UVU Campus DEM.jpg" alt="UVU Campus DEM">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">UVU Campus DEM</h3>
-                            <p class="portfolio-date">10/26/24</p>
-                            <p class="portfolio-description">
-                                Digital Elevation Model of Utah Valley University campus showing topographic relief and elevation changes. The DEM provides crucial data for drainage analysis, site planning, and environmental studies with high vertical accuracy.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">LiDAR Processing</span>
-                                <span class="tech-tag">DEM Generation</span>
-                                <span class="tech-tag">Topographic Analysis</span>
-                                <span class="tech-tag">3D Modeling</span>
-                            </div>
+                            <p class="portfolio-date">10/26/24 · Orem, UT</p>
+                            <p class="portfolio-description">Digital Elevation Model of UVU campus for drainage analysis, site planning, and environmental studies.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">LiDAR</span><span class="tech-tag">DEM Generation</span><span class="tech-tag">3D Modeling</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
+                        <div class="map-preview"><span class="map-badge">Urban Planning</span>
                             <img src="images/portfolio/CarterQ_Greenspace_SaratogaSprings.jpg" alt="Greenspace in Saratoga Springs">
                         </div>
                         <div class="portfolio-content">
-                            <h3 class="portfolio-title">Greenspace in Saratoga Springs, Utah</h3>
-                            <p class="portfolio-date">Urban Planning Study</p>
-                            <p class="portfolio-description">
-                                Detailed mapping and analysis of green space distribution in Saratoga Springs, Utah. This study examined urban vegetation patterns, park accessibility, and their relationship to community development and quality of life indicators.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">NDVI Analysis</span>
-                                <span class="tech-tag">Urban Planning</span>
-                                <span class="tech-tag">Spatial Analysis</span>
-                                <span class="tech-tag">Land Use</span>
-                            </div>
+                            <h3 class="portfolio-title">Greenspace in Saratoga Springs</h3>
+                            <p class="portfolio-date">Urban Planning Study · Utah</p>
+                            <p class="portfolio-description">Analyzing green space distribution, park accessibility, and their relationship to community development.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">NDVI</span><span class="tech-tag">Urban Planning</span><span class="tech-tag">Land Use</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
+                        <div class="map-preview"><span class="map-badge">Image Processing</span>
                             <img src="images/portfolio/CarterQ_CloudMask_Java_Island.jpg" alt="Cloud Mask over Indonesia">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">Cloud Mask over Indonesia</h3>
-                            <p class="portfolio-date">Remote Sensing Project</p>
-                            <p class="portfolio-description">
-                                Advanced cloud masking techniques applied to satellite imagery over Java Island, Indonesia. This project developed automated cloud detection algorithms to improve the quality of remote sensing analysis in tropical regions with frequent cloud cover.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Cloud Detection</span>
-                                <span class="tech-tag">Image Processing</span>
-                                <span class="tech-tag">Python</span>
-                                <span class="tech-tag">Landsat</span>
-                            </div>
+                            <p class="portfolio-date">Remote Sensing · Java Island</p>
+                            <p class="portfolio-description">Automated cloud detection algorithms to improve remote sensing analysis in tropical regions.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">Cloud Detection</span><span class="tech-tag">Python</span><span class="tech-tag">Landsat</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
-                            <img src="images/portfolio/CarterQ_NDVI_Comparison.jpg" alt="Cloud Mask NDVI Comparison">
+                        <div class="map-preview"><span class="map-badge">Vegetation</span>
+                            <img src="images/portfolio/CarterQ_NDVI_Comparison.jpg" alt="NDVI Comparison">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">Cloud Mask NDVI Comparison</h3>
                             <p class="portfolio-date">Comparative Analysis</p>
-                            <p class="portfolio-description">
-                                Comparative study examining the effectiveness of different cloud masking techniques on NDVI calculations. This analysis demonstrated the importance of accurate cloud removal for vegetation monitoring and environmental assessment.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">NDVI</span>
-                                <span class="tech-tag">Comparative Analysis</span>
-                                <span class="tech-tag">Quality Assessment</span>
-                                <span class="tech-tag">Vegetation Monitoring</span>
-                            </div>
+                            <p class="portfolio-description">Comparing cloud masking techniques on NDVI calculations for vegetation monitoring and environmental assessment.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">NDVI</span><span class="tech-tag">Comparative Analysis</span><span class="tech-tag">Vegetation</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
+                        <div class="map-preview"><span class="map-badge">Photogrammetry</span>
                             <img src="images/portfolio/CarterQ_DSM_Orthomosaic_Comparison.jpg" alt="Orthomosaic Comparison">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">Orthomosaic Comparison</h3>
                             <p class="portfolio-date">Photogrammetry Study</p>
-                            <p class="portfolio-description">
-                                Detailed comparison of Digital Surface Models (DSM) and orthomosaic products generated from aerial photography. This project evaluated different processing workflows and their impact on final product quality and accuracy.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Photogrammetry</span>
-                                <span class="tech-tag">DSM Generation</span>
-                                <span class="tech-tag">Quality Control</span>
-                                <span class="tech-tag">Aerial Photography</span>
-                            </div>
+                            <p class="portfolio-description">Evaluating DSM and orthomosaic processing workflows and their impact on final product quality.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">Photogrammetry</span><span class="tech-tag">DSM Generation</span><span class="tech-tag">Quality Control</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
+                        <div class="map-preview"><span class="map-badge">ML / Classification</span>
                             <img src="images/portfolio/CarterQ_UnsupervisedClassificationComparison.jpg" alt="Unsupervised Classifications">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">Unsupervised Classifications</h3>
                             <p class="portfolio-date">Machine Learning Project</p>
-                            <p class="portfolio-description">
-                                Comparative analysis of different unsupervised classification algorithms for land cover mapping. This study evaluated K-means, ISODATA, and other clustering techniques to determine optimal approaches for various landscape types.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Machine Learning</span>
-                                <span class="tech-tag">K-means Clustering</span>
-                                <span class="tech-tag">ISODATA</span>
-                                <span class="tech-tag">Land Cover Mapping</span>
-                            </div>
+                            <p class="portfolio-description">Comparing K-means, ISODATA, and clustering techniques for land cover mapping across landscape types.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">K-means</span><span class="tech-tag">ISODATA</span><span class="tech-tag">Land Cover</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
-                            <img src="images/portfolio/Carter Q UVU Unsupervised Landcover Fixed.jpg" alt="Unsupervised UVU Classifications">
+                        <div class="map-preview"><span class="map-badge">Land Cover</span>
+                            <img src="images/portfolio/Carter Q UVU Unsupervised Landcover Fixed.jpg" alt="Unsupervised UVU Classification">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">Unsupervised UVU Classification</h3>
-                            <p class="portfolio-date">Land Cover Analysis</p>
-                            <p class="portfolio-description">
-                                Unsupervised land cover classification of Utah Valley University campus using high-resolution imagery. This project identified and mapped different land cover types including buildings, vegetation, pavement, and natural areas.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Unsupervised Classification</span>
-                                <span class="tech-tag">Land Cover</span>
-                                <span class="tech-tag">Campus Mapping</span>
-                                <span class="tech-tag">Spectral Analysis</span>
-                            </div>
+                            <p class="portfolio-date">Land Cover Analysis · UVU</p>
+                            <p class="portfolio-description">Identifying buildings, vegetation, pavement, and natural areas on UVU campus via classification.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">Classification</span><span class="tech-tag">Campus Mapping</span><span class="tech-tag">Spectral</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
+                        <div class="map-preview"><span class="map-badge">NDVI</span>
                             <img src="images/portfolio/OremNDVI2022Map.jpg" alt="Orem City NDVI">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">Orem City NDVI</h3>
-                            <p class="portfolio-date">2022</p>
-                            <p class="portfolio-description">
-                                Normalized Difference Vegetation Index analysis of Orem City, Utah, providing insights into urban vegetation health and distribution. This analysis supports urban planning decisions and environmental monitoring initiatives.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">NDVI Analysis</span>
-                                <span class="tech-tag">Vegetation Health</span>
-                                <span class="tech-tag">Urban Environment</span>
-                                <span class="tech-tag">Landsat</span>
-                            </div>
+                            <p class="portfolio-date">2022 · Orem, UT</p>
+                            <p class="portfolio-description">NDVI analysis of Orem City providing insights into urban vegetation health and distribution patterns.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">NDVI</span><span class="tech-tag">Vegetation Health</span><span class="tech-tag">Landsat</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
-                            <img src="images/portfolio/OremNDVIDifferencesMap.jpg" alt="Orem City NDVI Changes Over Time">
+                        <div class="map-preview"><span class="map-badge">Change Detection</span>
+                            <img src="images/portfolio/OremNDVIDifferencesMap.jpg" alt="Orem NDVI Changes">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">Orem City NDVI Changes Over Time</h3>
                             <p class="portfolio-date">Multi-Temporal Study</p>
-                            <p class="portfolio-description">
-                                Time series analysis of vegetation changes in Orem City using multi-temporal NDVI data. This project identified areas of vegetation loss and gain, supporting environmental monitoring and urban development assessment.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Time Series</span>
-                                <span class="tech-tag">Change Detection</span>
-                                <span class="tech-tag">Environmental Monitoring</span>
-                                <span class="tech-tag">Urban Growth</span>
-                            </div>
+                            <p class="portfolio-description">Time series vegetation analysis identifying areas of gain and loss to support environmental monitoring.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">Time Series</span><span class="tech-tag">Change Detection</span><span class="tech-tag">Urban Growth</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
-                            <img src="images/portfolio/CarterQ_PCA_UtahSocialVulnerabilitySS.png" alt="Principal Component Analysis">
-                        </div>
-                        <div class="portfolio-content">
-                            <h3 class="portfolio-title">Principal Component Analysis for Utah Vulnerability</h3>
-                            <p class="portfolio-date">Social Research</p>
-                            <p class="portfolio-description">
-                                Advanced statistical analysis using Principal Component Analysis to assess social vulnerability patterns across Utah communities. This project identified key vulnerability factors and created composite vulnerability indices for policy planning.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">PCA Analysis</span>
-                                <span class="tech-tag">Social Vulnerability</span>
-                                <span class="tech-tag">Statistical Analysis</span>
-                                <span class="tech-tag">Policy Planning</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="portfolio-item">
-                        <div class="map-preview">
-                            <img src="images/portfolio/CarterQNormalDiffs.jpg" alt="Utah Precipitation Interpolations">
-                        </div>
-                        <div class="portfolio-content">
-                            <h3 class="portfolio-title">Utah Precipitation Interpolations</h3>
-                            <p class="portfolio-date">Climate Analysis</p>
-                            <p class="portfolio-description">
-                                Spatial interpolation analysis of precipitation patterns across Utah using various geostatistical methods. This project compared different interpolation techniques to create accurate precipitation surface models for climate research.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Spatial Interpolation</span>
-                                <span class="tech-tag">Geostatistics</span>
-                                <span class="tech-tag">Climate Data</span>
-                                <span class="tech-tag">Kriging</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="portfolio-item">
-                        <div class="map-preview">
-                            <img src="images/portfolio/CarterQ_SupervisedClassificationComparisons.jpg" alt="Supervised Classifications">
-                        </div>
-                        <div class="portfolio-content">
-                            <h3 class="portfolio-title">Supervised Classifications</h3>
-                            <p class="portfolio-date">Machine Learning</p>
-                            <p class="portfolio-description">
-                                Comparative analysis of supervised classification algorithms including Maximum Likelihood, Support Vector Machine, and Random Forest for land cover mapping. This study evaluated accuracy and performance of different machine learning approaches.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Supervised Learning</span>
-                                <span class="tech-tag">Random Forest</span>
-                                <span class="tech-tag">SVM</span>
-                                <span class="tech-tag">Accuracy Assessment</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="portfolio-item">
-                        <div class="map-preview">
-                            <img src="images/portfolio/LandSurfaceTempMap.jpg" alt="Land Surface Temperatures">
-                        </div>
-                        <div class="portfolio-content">
-                            <h3 class="portfolio-title">Land Surface Temperatures</h3>
-                            <p class="portfolio-date">Thermal Analysis</p>
-                            <p class="portfolio-description">
-                                Land surface temperature analysis using thermal infrared satellite imagery to study urban heat island effects and temperature patterns. This project supports climate research and urban planning initiatives through thermal mapping.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Thermal Infrared</span>
-                                <span class="tech-tag">Temperature Mapping</span>
-                                <span class="tech-tag">Urban Heat Island</span>
-                                <span class="tech-tag">Climate Analysis</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="portfolio-item">
-                        <div class="map-preview">
+                        <div class="map-preview"><span class="map-badge">Elevation</span>
                             <img src="images/portfolio/Carter Q DEM Difference Comparison.jpg" alt="UVU DEM Comparison">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">UVU DEM Comparison</h3>
-                            <p class="portfolio-date">Elevation Analysis</p>
-                            <p class="portfolio-description">
-                                Multi-temporal Digital Elevation Model comparison of Utah Valley University campus showing elevation changes over time. This analysis identified areas of construction activity, erosion, and landscape modification using high-resolution elevation data.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">DEM Analysis</span>
-                                <span class="tech-tag">Change Detection</span>
-                                <span class="tech-tag">LiDAR</span>
-                                <span class="tech-tag">Temporal Analysis</span>
-                            </div>
+                            <p class="portfolio-date">Elevation Analysis · UVU</p>
+                            <p class="portfolio-description">Multi-temporal DEM comparison identifying construction, erosion, and landscape modification.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">DEM Analysis</span><span class="tech-tag">LiDAR</span><span class="tech-tag">Temporal</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
-                            <img src="images/portfolio/HoustonBestBusinessLocations.png" alt="Best Houston Business Locations">
+                        <div class="map-preview"><span class="map-badge">Site Suitability</span>
+                            <img src="images/portfolio/HoustonBestBusinessLocations.png" alt="Houston Business Locations">
                         </div>
                         <div class="portfolio-content">
-                            <h3 class="portfolio-title">Best Prospect Business Locations in Houston, Texas</h3>
-                            <p class="portfolio-date">Business Intelligence</p>
-                            <p class="portfolio-description">
-                                Comprehensive site suitability analysis for business development in Houston, Texas. This project integrated demographic data, transportation networks, zoning information, and economic indicators to identify optimal locations for commercial development.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Site Suitability</span>
-                                <span class="tech-tag">Business Intelligence</span>
-                                <span class="tech-tag">Demographic Analysis</span>
-                                <span class="tech-tag">Multi-Criteria Decision</span>
-                            </div>
+                            <h3 class="portfolio-title">Best Business Locations, Houston</h3>
+                            <p class="portfolio-date">Business Intelligence · TX</p>
+                            <p class="portfolio-description">Site suitability integrating demographics, transportation, and economic data for commercial development.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">Site Suitability</span><span class="tech-tag">Demographics</span><span class="tech-tag">Multi-Criteria</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
-                            <img src="images/portfolio/CarterQShadedRelief.jpg" alt="San Rafael Swell Shaded Relief">
+                        <div class="map-preview"><span class="map-badge">Cartography</span>
+                            <img src="images/portfolio/CarterQShadedRelief.jpg" alt="San Rafael Swell">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">San Rafael Swell Shaded Relief</h3>
-                            <p class="portfolio-date">Cartographic Design</p>
-                            <p class="portfolio-description">
-                                High-quality shaded relief map of the San Rafael Swell in Utah, showcasing advanced cartographic techniques and terrain visualization. This project emphasized the dramatic topography and geological features of this unique landscape.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Cartographic Design</span>
-                                <span class="tech-tag">Terrain Visualization</span>
-                                <span class="tech-tag">Hillshade</span>
-                                <span class="tech-tag">Map Design</span>
-                            </div>
+                            <p class="portfolio-date">Cartographic Design · Utah</p>
+                            <p class="portfolio-description">High-quality shaded relief map showcasing advanced terrain visualization of this dramatic Utah landscape.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">Cartographic Design</span><span class="tech-tag">Hillshade</span><span class="tech-tag">Map Design</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
-                            <img src="images/portfolio/CarterQuesenberrySlopeHillShade.jpg" alt="Slope and Hillshade Comparison">
+                        <div class="map-preview"><span class="map-badge">Terrain</span>
+                            <img src="images/portfolio/CarterQuesenberrySlopeHillShade.jpg" alt="Slope and Hillshade">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">Slope and Hillshade Comparison</h3>
                             <p class="portfolio-date">Terrain Analysis</p>
-                            <p class="portfolio-description">
-                                Comparative terrain analysis showing slope calculations and hillshade visualizations from digital elevation models. This project demonstrates different techniques for terrain visualization and topographic analysis applications.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Terrain Analysis</span>
-                                <span class="tech-tag">Slope Calculation</span>
-                                <span class="tech-tag">Hillshade</span>
-                                <span class="tech-tag">Topographic Modeling</span>
-                            </div>
+                            <p class="portfolio-description">Comparing slope calculations and hillshade visualizations for terrain and topographic analysis.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">Slope</span><span class="tech-tag">Hillshade</span><span class="tech-tag">Topographic Modeling</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
-                            <img src="images/portfolio/CarterQuesenberryWifiDownloadSpeeds.jpg" alt="Download Speeds and Wifi Status in Utah">
+                        <div class="map-preview"><span class="map-badge">Connectivity</span>
+                            <img src="images/portfolio/CarterQuesenberryWifiDownloadSpeeds.jpg" alt="Utah Wifi Speeds">
                         </div>
                         <div class="portfolio-content">
-                            <h3 class="portfolio-title">Download Speeds and Wifi Status in Utah</h3>
-                            <p class="portfolio-date">Connectivity Analysis</p>
-                            <p class="portfolio-description">
-                                Comprehensive mapping of internet connectivity and download speeds across Utah communities. This analysis supports digital equity initiatives and infrastructure planning by identifying areas with limited broadband access.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Digital Equity</span>
-                                <span class="tech-tag">Infrastructure Analysis</span>
-                                <span class="tech-tag">Connectivity Mapping</span>
-                                <span class="tech-tag">Broadband Access</span>
-                            </div>
+                            <h3 class="portfolio-title">Download Speeds &amp; Wifi Status, Utah</h3>
+                            <p class="portfolio-date">Connectivity Analysis · Utah</p>
+                            <p class="portfolio-description">Mapping broadband coverage to support digital equity initiatives and infrastructure planning statewide.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">Digital Equity</span><span class="tech-tag">Infrastructure</span><span class="tech-tag">Broadband</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
-                            <img src="images/portfolio/LA_Population_Map.jpg" alt="Los Angeles Population Map">
+                        <div class="map-preview"><span class="map-badge">Demographics</span>
+                            <img src="images/portfolio/LA_Population_Map.jpg" alt="Los Angeles Population">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">Los Angeles Population Map</h3>
-                            <p class="portfolio-date">Demographic Mapping</p>
-                            <p class="portfolio-description">
-                                Detailed population density mapping of Los Angeles County using US Census data. This project utilized advanced symbology and statistical analysis to visualize population patterns, urban density, and demographic distributions across the metropolitan area.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Census Data</span>
-                                <span class="tech-tag">Population Analysis</span>
-                                <span class="tech-tag">Statistical Mapping</span>
-                                <span class="tech-tag">Urban Demographics</span>
-                            </div>
+                            <p class="portfolio-date">Demographic Mapping · LA County</p>
+                            <p class="portfolio-description">Population density mapping using US Census data to visualize urban demographics across LA County.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">Census Data</span><span class="tech-tag">Statistical Mapping</span><span class="tech-tag">Demographics</span></div>
                         </div>
                     </div>
 
                     <div class="portfolio-item">
-                        <div class="map-preview">
+                        <div class="map-preview"><span class="map-badge">Urban Development</span>
                             <img src="images/portfolio/CarterQuesenberrySalemChanges.jpg" alt="Changes in Salem Utah">
                         </div>
                         <div class="portfolio-content">
                             <h3 class="portfolio-title">Changes in Salem, Utah</h3>
-                            <p class="portfolio-date">Urban Development</p>
-                            <p class="portfolio-description">
-                                Multi-temporal analysis documenting urban development and land use changes in Salem, Utah over time. This project utilized historical imagery and current data to track growth patterns and development trends in this growing community.
-                            </p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">Change Detection</span>
-                                <span class="tech-tag">Urban Development</span>
-                                <span class="tech-tag">Historical Analysis</span>
-                                <span class="tech-tag">Growth Patterns</span>
-                            </div>
+                            <p class="portfolio-date">Urban Development · Salem, UT</p>
+                            <p class="portfolio-description">Multi-temporal analysis documenting land use changes and growth patterns in this growing community.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">Change Detection</span><span class="tech-tag">Historical Analysis</span><span class="tech-tag">Growth Patterns</span></div>
                         </div>
                     </div>
+
                 </div>
-                <!-- custom scrollbar (always visible) -->
-                <div class="portfolio-scrollbar" aria-hidden="false">
+
+                <div class="portfolio-scrollbar" aria-hidden="true">
                     <div class="ps-track">
-                    <div class="ps-thumb" role="slider" aria-label="Horizontal project scroller" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+                        <div class="ps-thumb" id="psThumb"></div>
                     </div>
                 </div>
+                <div class="drag-hint">← drag to explore all projects →</div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
+    <div class="section-divider"></div>
+
+    <!-- ABOUT -->
     <section id="about" class="about-section">
+        <!-- Red planet decoration -->
+        <div class="about-planet-wrap" aria-hidden="true">
+            <div class="about-planet-glow"></div>
+            <div class="about-planet-body">
+                <svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="180" height="180" fill="none"/>
+                    <ellipse cx="90" cy="68" rx="90" ry="18" fill="rgba(160,40,20,0.3)"/>
+                    <ellipse cx="90" cy="110" rx="90" ry="14" fill="rgba(120,30,15,0.25)"/>
+                    <ellipse cx="90" cy="5" rx="34" ry="10" fill="rgba(220,200,190,0.25)"/>
+                    <circle cx="55" cy="75" r="14" fill="rgba(0,0,0,0.12)" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+                    <circle cx="115" cy="95" r="9" fill="rgba(0,0,0,0.1)" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
+                    <circle cx="72" cy="120" r="6" fill="rgba(0,0,0,0.08)"/>
+                    <circle cx="130" cy="58" r="5" fill="rgba(0,0,0,0.09)"/>
+                    <path d="M20 88 Q60 82 100 90 Q130 96 160 88" stroke="rgba(80,15,8,0.4)" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="62" cy="54" rx="22" ry="14" fill="rgba(255,180,140,0.06)" transform="rotate(-15 62 54)"/>
+                </svg>
+            </div>
+        </div>
         <div class="container">
-            <h2 class="section-title">About Me</h2>
+            <div class="section-header reveal">
+                <p class="section-eyebrow">Background</p>
+                <h2 class="section-title">About Me</h2>
+            </div>
             <div class="about-content">
-                <div class="about-text">
-                    <p>
-                        Hi! My name is Carter Quesenberry. I graduated from Utah Valley University, with a bachelors is Geography, minor in Computer Science, and Certificate of Proficiency in Geographic Information Systems (GIS). I have worked on various GIS projects, and am excited to showcase them!
-                    </p>
-                    <p>
-                        I'm a passionate about GIS and cartography, especially in a way that helps the public. I have expertise in spatial analysis, remote sensing, and geographic data visualization. My work focuses on creating meaningful maps and analyses that help organizations make informed decisions about their spatial challenges.
-                    </p>
-                    <p>
-                        I love all things maps, I love to read and watch movies, and I find joy in the details. When I’m not mapping or coding, you can find me exploring local coffee shops, catching up on a good book, or enjoying a cozy movie night with friends. I’m excited to keep growing as a GIS professional and to contribute to projects that make a real difference.
-                    </p>
+                <div class="about-text reveal">
+                    <p>Hi! I'm Carter Quesenberry — a Geography graduate from Utah Valley University with a minor in Computer Science and a Certificate of Proficiency in GIS.</p>
+                    <p>I'm passionate about GIS and cartography, especially where it helps the public. My expertise spans spatial analysis, remote sensing, and geographic data visualization. I love creating maps and analyses that help organizations make informed decisions.</p>
+                    <p>When I'm not mapping or coding, you'll find me in a local coffee shop with a chai latte, deep in a good book, or catching a movie with friends. Excited to keep growing as a GIS professional!</p>
                 </div>
-                <div class="skills-section">
+                <div class="skills-box reveal">
                     <h3>Technical Skills</h3>
                     <div class="skills-grid">
                         <div class="skill-category">
                             <h4>GIS Software</h4>
                             <ul class="skill-list">
-                                <li>ArcGIS Pro </li>
-                                <li>ArcGIS Enterprise & Online </li>
-                                <li>QGIS</li>
-                                <li>Field Maps</li>
-                                <li>Agisoft Metashape</li>
+                                <li>ArcGIS Pro</li><li>ArcGIS Enterprise &amp; Online</li><li>QGIS</li><li>Field Maps</li><li>Agisoft Metashape</li>
                             </ul>
                         </div>
                         <div class="skill-category">
                             <h4>Data Analysis</h4>
                             <ul class="skill-list">
-                                <li>Remote Sensing</li>
-                                <li>Spatial Analysis</li>
-                                <li>Hydrology Modeling</li>
-                                <li>Statistical Analysis</li>
+                                <li>Remote Sensing</li><li>Spatial Analysis</li><li>Hydrology Modeling</li><li>Statistical Analysis</li>
                             </ul>
                         </div>
                         <div class="skill-category">
                             <h4>Programming</h4>
                             <ul class="skill-list">
-                                <li>Python (ArcPy)</li>
-                                <li>R (Spatial Analysis)</li>
-                                <li>JavaScript</li>
-                                <li>SQL</li>
+                                <li>Python (ArcPy)</li><li>R (Spatial Analysis)</li><li>JavaScript</li><li>SQL</li>
                             </ul>
                         </div>
                         <div class="skill-category">
                             <h4>Cartography</h4>
                             <ul class="skill-list">
-                                <li>Map Design</li>
-                                <li>Data Visualization</li>
-                                <li>Adobe Creative Suite</li>
-                                <li>Web Mapping</li>
+                                <li>Map Design</li><li>Data Visualization</li><li>Adobe Creative Suite</li><li>Web Mapping</li>
                             </ul>
                         </div>
                     </div>
@@ -534,66 +1120,123 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>I'd love to hear from you :)</h3>
-                    <p>If you have any questions, or just want to say hi, please use the contact form!</p>
-                    <br>
-                    
-                    <div class="contact-item">
-                        <a href="mailto:carterqberry@gmail.com"><i class="fa-regular fa-envelope"></i></a> carterqberry@gmail.com
-                    </div>
-                    
-                    <div class="contact-item">
-                        <a href="https://www.linkedin.com/in/carter-quesenberry-358595217/" target="_blank"><i class="fa-brands fa-linkedin"></i></a> LinkedIn
+    <div class="section-divider"></div>
 
-                    </div>
-                    
-                    <div class="contact-item">
-                        <a href="https://github.com/carterqberry" target="_blank"><i class="fa-brands fa-github"></i></a>Github
-                    </div>
-                    
-                    <div class="contact-item">
-                        <i class="fa-solid fa-map-pin pin"></i> Salem, Utah
+    <!-- CONTACT -->
+    <section id="contact" class="contact-section">
+        <!-- Moon decoration -->
+        <div class="contact-moon-wrap" aria-hidden="true">
+            <div class="contact-moon-glow"></div>
+            <div class="contact-moon-body">
+                <span class="contact-moon-crater"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-eyebrow">Connect</p>
+                <h2 class="section-title">Get In Touch</h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info-box reveal">
+                    <h3>I'd love to hear from you.</h3>
+                    <p>Have a project, a question about my work, or just want to say hi? Drop me a message.</p>
+                    <div class="contact-links">
+                        <div class="contact-item">
+                            <a href="#" id="emailLink" class="icon-btn">
+                                <i class="fa-regular fa-envelope"></i>
+                            </a>
+                            <a href="#" id="emailText"></a>
+                        </div>
+
+                        <script>
+                            const user = "carterqberry";
+                            const domain = "gmail.com";
+                            const email = user + "@" + domain;
+
+                            document.getElementById("emailLink").href = "mailto:" + email;
+                            document.getElementById("emailText").href = "mailto:" + email;
+                            document.getElementById("emailText").textContent = email;
+                        </script>
+                        <div class="contact-item">
+                            <a href="https://www.linkedin.com/in/carter-quesenberry-358595217/" target="_blank" class="icon-btn"><i class="fa-brands fa-linkedin"></i></a>
+                            LinkedIn
+                        </div>
+                        <div class="contact-item">
+                            <a href="https://github.com/carterqberry" target="_blank" class="icon-btn"><i class="fa-brands fa-github"></i></a>
+                            GitHub
+                        </div>
+                        <div class="contact-item">
+                            <span class="icon-static"><i class="fa-solid fa-map-pin"></i></span>
+                            Salem, Utah
+                        </div>
                     </div>
                 </div>
-                
-                <form class="contact-form" action="https://formspree.io/f/mzzjkkqb" method="POST">
+
+                <form class="contact-form reveal" action="https://formspree.io/f/mzzjkkqb" method="POST">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" placeholder="Your Name" required>
                     </div>
-                    
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
                     </div>
-                    
                     <div class="form-group">
                         <label for="subject">Subject</label>
                         <input type="text" id="subject" name="subject" placeholder="Project Inquiry" required>
                     </div>
-                    
                     <div class="form-group">
                         <label for="message">Message</label>
                         <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
                     </div>
-                    
                     <button type="submit" class="submit-btn">Send Message</button>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
-        <div class="container">
-            <p>&copy; 2025 Carter Quesenberry.</p>
-        </div>
+        <span class="footer-logo">Carter Quesenberry</span>
+        <span>© 2025 · Maps, data, and chai lattes.</span>
     </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach((e, i) => {
+            if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80);
+        });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => obs.observe(el));
+
+    // Portfolio drag scroll
+    const row = document.getElementById('portfolioRow');
+    const thumb = document.getElementById('psThumb');
+    let isDown = false, startX, scrollLeft;
+
+    row.addEventListener('mousedown', e => {
+        isDown = true; startX = e.pageX - row.offsetLeft;
+        scrollLeft = row.scrollLeft; row.style.userSelect = 'none';
+    });
+    ['mouseleave','mouseup'].forEach(ev => row.addEventListener(ev, () => {
+        isDown = false; row.style.userSelect = '';
+    }));
+    row.addEventListener('mousemove', e => {
+        if (!isDown) return; e.preventDefault();
+        row.scrollLeft = scrollLeft - (e.pageX - row.offsetLeft - startX) * 1.4;
+    });
+    row.addEventListener('scroll', () => {
+        const pct = row.scrollLeft / (row.scrollWidth - row.clientWidth);
+        const maxLeft = thumb.parentElement.clientWidth - thumb.clientWidth;
+        thumb.style.left = (pct * maxLeft) + 'px';
+    });
+
+    // Header scroll state
+    const hdr = document.getElementById('siteHeader');
+    window.addEventListener('scroll', () => {
+        hdr.classList.toggle('scrolled', window.scrollY > 40);
+    });
+    </script>
 </body>
 </html>
