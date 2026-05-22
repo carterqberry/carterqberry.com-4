@@ -19,23 +19,68 @@ document.getElementById("emailText").textContent = email;
     // Portfolio drag scroll
     const row = document.getElementById('portfolioRow');
     const thumb = document.getElementById('psThumb');
+    const track = thumb.parentElement;
     let isDown = false, startX, scrollLeft;
+    let thumbDown = false, thumbStartX, thumbStartScroll;
 
+    function updateThumb() {
+        const maxScroll = row.scrollWidth - row.clientWidth;
+        if (maxScroll <= 0) return;
+        const pct = row.scrollLeft / maxScroll;
+        const maxLeft = track.clientWidth - thumb.clientWidth;
+        thumb.style.left = (pct * maxLeft) + 'px';
+    }
+
+    // Row drag scroll
     row.addEventListener('mousedown', e => {
         isDown = true; startX = e.pageX - row.offsetLeft;
         scrollLeft = row.scrollLeft; row.style.userSelect = 'none';
+        row.style.cursor = 'grabbing';
     });
     ['mouseleave','mouseup'].forEach(ev => row.addEventListener(ev, () => {
-        isDown = false; row.style.userSelect = '';
+        isDown = false; row.style.userSelect = ''; row.style.cursor = '';
     }));
     row.addEventListener('mousemove', e => {
         if (!isDown) return; e.preventDefault();
         row.scrollLeft = scrollLeft - (e.pageX - row.offsetLeft - startX) * 1.4;
     });
-    row.addEventListener('scroll', () => {
-        const pct = row.scrollLeft / (row.scrollWidth - row.clientWidth);
-        const maxLeft = thumb.parentElement.clientWidth - thumb.clientWidth;
-        thumb.style.left = (pct * maxLeft) + 'px';
+    row.addEventListener('scroll', updateThumb);
+
+    // Prevent thumb clicks from bubbling to the track click handler
+    thumb.addEventListener('click', e => e.stopPropagation());
+
+    // Thumb drag
+    thumb.addEventListener('mousedown', e => {
+        e.preventDefault(); e.stopPropagation();
+        thumbDown = true;
+        thumbStartX = e.pageX;
+        thumbStartScroll = row.scrollLeft;
+        thumb.style.transition = 'none';
+        document.body.style.userSelect = 'none';
+        thumb.style.cursor = 'grabbing';
+    });
+    document.addEventListener('mousemove', e => {
+        if (!thumbDown) return;
+        const dx = e.pageX - thumbStartX;
+        const maxLeft = track.clientWidth - thumb.clientWidth;
+        const scrollRange = row.scrollWidth - row.clientWidth;
+        row.scrollLeft = thumbStartScroll + (dx / maxLeft) * scrollRange;
+    });
+    document.addEventListener('mouseup', () => {
+        if (!thumbDown) return;
+        thumbDown = false;
+        thumb.style.transition = '';
+        document.body.style.userSelect = '';
+        thumb.style.cursor = '';
+    });
+
+    // Track click to jump to position
+    track.addEventListener('click', e => {
+        if (e.target === thumb) return;
+        const rect = track.getBoundingClientRect();
+        const clickPct = (e.clientX - rect.left) / rect.width;
+        const scrollRange = row.scrollWidth - row.clientWidth;
+        row.scrollTo({ left: clickPct * scrollRange, behavior: 'smooth' });
     });
 
     // Header scroll state

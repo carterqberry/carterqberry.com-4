@@ -346,7 +346,7 @@ section { position: relative; z-index: 1; }
 
 .portfolio-row {
     display: flex; gap: 18px; overflow-x: auto;
-    padding: 8px 4px 20px; scroll-snap-type: x mandatory;
+    padding: 8px 4px 20px;
     -webkit-overflow-scrolling: touch; scrollbar-width: none;
     cursor: grab; user-select: none;
 }
@@ -354,7 +354,7 @@ section { position: relative; z-index: 1; }
 .portfolio-row::-webkit-scrollbar { display: none; }
 
 .portfolio-item {
-    flex: 0 0 520px; scroll-snap-align: start;
+    flex: 0 0 520px;
     background: var(--panel);
     border: 1px solid var(--rim);
     border-radius: 16px; overflow: hidden;
@@ -461,14 +461,18 @@ section { position: relative; z-index: 1; }
 
 .portfolio-scrollbar { margin-top: 16px; padding: 0 4px; }
 .ps-track {
-    height: 1px; background: var(--rim); position: relative;
+    height: 4px; background: var(--rim); position: relative;
+    border-radius: 100px; cursor: pointer;
 }
 .ps-thumb {
     position: absolute; top: -2px; left: 0;
-    height: 5px; width: 60px; border-radius: 100px;
-    background: var(--accent); cursor: pointer;
-    transition: background 0.2s;
+    height: 8px; width: 60px; border-radius: 100px;
+    background: var(--accent); cursor: grab;
+    transition: background 0.2s, width 0.2s;
+    user-select: none;
 }
+.ps-thumb:hover { background: var(--accent2); }
+.ps-thumb:active { cursor: grabbing; }
 
 .drag-hint {
     display: flex; align-items: center; gap: 8px;
