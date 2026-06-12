@@ -67,36 +67,31 @@ body {
     font-size: 1.1rem;
     color: var(--star);
     text-decoration: none;
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; gap: 5px;
     letter-spacing: 0.01em;
 }
 
-.logo-planet {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: radial-gradient(circle at 35% 32%, #d8e4f0 0%, #9ab4c8 40%, #5a7a96 70%, #2a4560 100%);
-    box-shadow: 0 0 10px rgba(180,210,240,0.35), inset -5px -5px 10px rgba(0,0,0,0.45), inset 3px 3px 6px rgba(255,255,255,0.08);
-    position: relative; flex-shrink: 0;
-    animation: orbit-logo 6s ease-in-out infinite;
+.logo-moon-wrap {
+    position: relative;
+    width: 38px; height: 38px; border-radius: 50%;
+    flex-shrink: 0;
     overflow: hidden;
+    isolation: isolate;
+    animation: orbit-logo 6s ease-in-out infinite;
 }
-/* Moon craters on logo */
-.logo-planet::before {
-    content: '';
+.logo-planet {
     position: absolute;
-    width: 7px; height: 7px; border-radius: 50%;
-    background: rgba(0,0,0,0.18);
-    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.35),
-                11px 8px 0 -1px rgba(0,0,0,0.14),
-                -4px 11px 0 -2px rgba(0,0,0,0.12);
-    top: 7px; left: 9px;
+    top: -20%; left: -20%;
+    width: 140%; height: 140%;
+    display: block;
+    object-fit: cover;
 }
-.logo-planet::after {
-    content: '';
+.logo-moon-shadow {
     position: absolute;
-    width: 4px; height: 4px; border-radius: 50%;
-    background: rgba(0,0,0,0.15);
-    box-shadow: inset 1px 1px 1px rgba(0,0,0,0.25);
-    top: 16px; left: 17px;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle at 72% 62%, transparent 20%, rgba(0,0,0,0.55) 65%);
+    pointer-events: none;
 }
 
 @keyframes orbit-logo {
@@ -144,6 +139,10 @@ body {
     text-transform: uppercase; margin-bottom: 24px;
 }
 .hero-eyebrow::before {
+    content: '';
+    width: 24px; height: 1px; background: var(--accent2);
+}
+.hero-eyebrow::after {
     content: '';
     width: 24px; height: 1px; background: var(--accent2);
 }
@@ -205,8 +204,8 @@ body {
 
 /* Ambient glow behind planet */
 .planet-glow {
-    position: absolute; inset: -40px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(74,158,255,0.12) 0%, transparent 70%);
+    position: absolute; inset: -50px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(40,210,255,0.18) 0%, rgba(20,160,220,0.08) 50%, transparent 70%);
     animation: pulse-glow 4s ease-in-out infinite;
 }
 @keyframes pulse-glow {
@@ -219,61 +218,157 @@ body {
     width: 290px; height: 290px; border-radius: 50%;
     position: relative; z-index: 3;
     box-shadow:
-        0 0 60px rgba(74,158,255,0.2),
-        0 0 120px rgba(74,158,255,0.08);
+        0 0 0 2px rgba(40,220,255,0.40),
+        0 0 40px rgba(40,210,255,0.35),
+        0 0 90px rgba(20,180,240,0.18),
+        0 0 160px rgba(10,140,210,0.08);
     overflow: hidden;
 }
-#globeCanvas {
-    display: block;
-    width: 290px; height: 290px;
-    border-radius: 50%;
+
+/* ── KURZGESAGT PLANET ── */
+.kz-planet-scaler {
+    position: absolute;
+    top: 0; left: 0;
+    width: 420px; height: 420px;
+    transform: scale(0.69048);
+    transform-origin: top left;
 }
 
-/* ── CONCENTRIC CIRCLE OUTLINES (replacing rings) ── */
-.planet-circles {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 2;
+.planet {
+    position: relative;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #2f67a8;
+    transform: rotate(20deg);
 }
-.planet-circle {
+
+.planet::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: inset -25px -8px 0 rgba(0,0,0,0.42);
+    pointer-events: none;
+    z-index: 5;
+}
+
+.continents {
+    position: absolute;
+    top: 0; left: 0;
+    width: 1240px; height: 100%;
+    animation: scrollMap 60s linear infinite;
+}
+
+@keyframes scrollMap {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-620px); }
+}
+
+.clouds {
+    position: absolute;
+    top: 0; left: 0;
+    width: 840px; height: 100%;
+    animation: scrollClouds 90s linear infinite;
+}
+
+@keyframes scrollClouds {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-420px); }
+}
+
+.cloud { position: absolute; }
+.cloud i {
     position: absolute;
     border-radius: 50%;
-    border: 1px solid rgba(124,196,255,0.18);
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    animation: circle-pulse 4s ease-in-out infinite;
+    background: #ffffff;
+    display: block;
 }
-.planet-circle:nth-child(1) {
-    width: 330px; height: 330px;
-    border-color: rgba(124,196,255,0.22);
-    animation-delay: 0s;
-}
-.planet-circle:nth-child(2) {
-    width: 390px; height: 390px;
-    border-color: rgba(124,196,255,0.15);
-    animation-delay: 0.4s;
-}
-.planet-circle:nth-child(3) {
-    width: 460px; height: 460px;
-    border-color: rgba(124,196,255,0.10);
-    animation-delay: 0.8s;
-}
-.planet-circle:nth-child(4) {
-    width: 540px; height: 540px;
-    border-color: rgba(124,196,255,0.06);
-    animation-delay: 1.2s;
-}
-.planet-circle:nth-child(5) {
-    width: 630px; height: 630px;
-    border-color: rgba(124,196,255,0.03);
-    animation-delay: 1.6s;
-}
-@keyframes circle-pulse {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.55; }
-}
+.cloud i.shadow { background: #d4e3f5; }
+
+.cl1  { top:62px;  left:48px;  width:88px;  height:52px; }
+.cl1b { top:62px;  left:468px; width:88px;  height:52px; }
+.cl2  { top:132px; left:190px; width:72px;  height:42px; }
+.cl2b { top:132px; left:610px; width:72px;  height:42px; }
+.cl3  { top:92px;  left:300px; width:98px;  height:54px; }
+.cl3b { top:92px;  left:720px; width:98px;  height:54px; }
+.cl4  { top:220px; left:10px;  width:64px;  height:34px; }
+.cl4b { top:220px; left:430px; width:64px;  height:34px; }
+.cl5  { top:260px; left:120px; width:82px;  height:46px; }
+.cl5b { top:260px; left:540px; width:82px;  height:46px; }
+.cl6  { top:180px; left:230px; width:76px;  height:44px; }
+.cl6b { top:180px; left:650px; width:76px;  height:44px; }
+.cl7  { top:50px;  left:330px; width:94px;  height:52px; }
+.cl7b { top:50px;  left:750px; width:94px;  height:52px; }
+.cl8  { top:290px; left:200px; width:68px;  height:38px; }
+.cl8b { top:290px; left:620px; width:68px;  height:38px; }
+.cl9  { top:140px; left:100px; width:86px;  height:48px; }
+.cl9b { top:140px; left:520px; width:86px;  height:48px; }
+.cl10  { top:240px; left:330px; width:72px;  height:40px; }
+.cl10b { top:240px; left:750px; width:72px;  height:40px; }
+.cl11  { top:110px; left:380px; width:120px; height:68px; }
+.cl11b { top:110px; left:800px; width:120px; height:68px; }
+.cl12  { top:320px; left:260px; width:110px; height:64px; }
+.cl12b { top:320px; left:680px; width:110px; height:64px; }
+
+.cl1 i:nth-child(1), .cl1b i:nth-child(1) { width:52px; height:40px; top:10px; left:0; }
+.cl1 i:nth-child(2), .cl1b i:nth-child(2) { width:44px; height:38px; top:4px;  left:26px; }
+.cl1 i:nth-child(3), .cl1b i:nth-child(3) { width:38px; height:30px; top:14px; left:50px; }
+.cl1 i:nth-child(4), .cl1b i:nth-child(4) { width:30px; height:26px; top:2px;  left:44px; }
+.cl1 i:nth-child(5), .cl1b i:nth-child(5) { width:26px; height:22px; top:18px; left:14px; }
+
+.cl2 i:nth-child(1), .cl2b i:nth-child(1) { width:44px; height:34px; top:6px;  left:0; }
+.cl2 i:nth-child(2), .cl2b i:nth-child(2) { width:36px; height:28px; top:12px; left:24px; }
+.cl2 i:nth-child(3), .cl2b i:nth-child(3) { width:32px; height:24px; top:0;    left:44px; }
+.cl2 i:nth-child(4), .cl2b i:nth-child(4) { width:26px; height:20px; top:16px; left:38px; }
+
+.cl3 i:nth-child(1), .cl3b i:nth-child(1) { width:38px; height:30px; top:10px; left:0; }
+.cl3 i:nth-child(2), .cl3b i:nth-child(2) { width:44px; height:34px; top:0;    left:22px; }
+.cl3 i:nth-child(3), .cl3b i:nth-child(3) { width:34px; height:26px; top:16px; left:44px; }
+.cl3 i:nth-child(4), .cl3b i:nth-child(4) { width:28px; height:22px; top:8px;  left:62px; }
+.cl3 i:nth-child(5), .cl3b i:nth-child(5) { width:24px; height:18px; top:28px; left:14px; }
+.cl3 i:nth-child(6), .cl3b i:nth-child(6) { width:18px; height:14px; top:36px; left:56px; }
+
+.cl4 i:nth-child(1), .cl4b i:nth-child(1) { width:38px; height:30px; top:10px; left:0; }
+.cl4 i:nth-child(2), .cl4b i:nth-child(2) { width:30px; height:22px; top:2px;  left:28px; }
+.cl4 i:nth-child(3), .cl4b i:nth-child(3) { width:24px; height:18px; top:18px; left:38px; }
+
+.cl5 i:nth-child(1), .cl5b i:nth-child(1) { width:48px; height:36px; top:10px; left:0; }
+.cl5 i:nth-child(2), .cl5b i:nth-child(2) { width:40px; height:32px; top:4px;  left:28px; }
+.cl5 i:nth-child(3), .cl5b i:nth-child(3) { width:34px; height:26px; top:16px; left:56px; }
+.cl5 i:nth-child(4), .cl5b i:nth-child(4) { width:28px; height:22px; top:0;    left:50px; }
+.cl5 i:nth-child(5), .cl5b i:nth-child(5) { width:22px; height:16px; top:24px; left:18px; }
+
+.cl6 i:nth-child(1), .cl6b i:nth-child(1) { width:44px; height:32px; top:8px;  left:0; }
+.cl6 i:nth-child(2), .cl6b i:nth-child(2) { width:38px; height:30px; top:2px;  left:22px; }
+.cl6 i:nth-child(3), .cl6b i:nth-child(3) { width:32px; height:24px; top:12px; left:40px; }
+.cl6 i:nth-child(4), .cl6b i:nth-child(4) { width:26px; height:20px; top:20px; left:30px; }
+
+.cl7 i:nth-child(1), .cl7b i:nth-child(1) { width:48px; height:38px; top:6px;  left:0; }
+.cl7 i:nth-child(2), .cl7b i:nth-child(2) { width:42px; height:34px; top:12px; left:28px; }
+.cl7 i:nth-child(3), .cl7b i:nth-child(3) { width:38px; height:30px; top:2px;  left:50px; }
+.cl7 i:nth-child(4), .cl7b i:nth-child(4) { width:30px; height:24px; top:18px; left:42px; }
+.cl7 i:nth-child(5), .cl7b i:nth-child(5) { width:24px; height:18px; top:28px; left:16px; }
+
+.cl8 i:nth-child(1), .cl8b i:nth-child(1) { width:40px; height:30px; top:6px;  left:0; }
+.cl8 i:nth-child(2), .cl8b i:nth-child(2) { width:34px; height:26px; top:12px; left:24px; }
+.cl8 i:nth-child(3), .cl8b i:nth-child(3) { width:28px; height:22px; top:4px;  left:40px; }
+
+.cl9 i:nth-child(1), .cl9b i:nth-child(1) { width:46px; height:36px; top:8px;  left:0; }
+.cl9 i:nth-child(2), .cl9b i:nth-child(2) { width:40px; height:32px; top:2px;  left:26px; }
+.cl9 i:nth-child(3), .cl9b i:nth-child(3) { width:36px; height:28px; top:14px; left:48px; }
+.cl9 i:nth-child(4), .cl9b i:nth-child(4) { width:28px; height:22px; top:4px;  left:42px; }
+
+.cl10 i:nth-child(1), .cl10b i:nth-child(1) { width:42px; height:32px; top:6px;  left:0; }
+.cl10 i:nth-child(2), .cl10b i:nth-child(2) { width:36px; height:28px; top:10px; left:26px; }
+.cl10 i:nth-child(3), .cl10b i:nth-child(3) { width:30px; height:24px; top:2px;  left:44px; }
+.cl10 i:nth-child(4), .cl10b i:nth-child(4) { width:24px; height:18px; top:16px; left:36px; }
+
+.cl11 i:nth-child(1), .cl11b i:nth-child(1) { width:68px; height:52px; top:6px;  left:0; }
+.cl11 i:nth-child(2), .cl11b i:nth-child(2) { width:58px; height:44px; top:14px; left:44px; }
+
+.cl12 i:nth-child(1), .cl12b i:nth-child(1) { width:62px; height:48px; top:8px;  left:0; }
+.cl12 i:nth-child(2), .cl12b i:nth-child(2) { width:54px; height:40px; top:16px; left:42px; }
 
 /* Orbiting moon */
 .moon-orbit {
@@ -283,7 +378,7 @@ body {
     transform: translate(-50%, -50%);
     animation: moon-spin 50s linear infinite;
 }
-/* The moon canvas wrapper */
+/* The moon wrapper */
 .moon {
     position: absolute; top: 0; left: 50%;
     width: 44px; height: 44px;
@@ -292,10 +387,19 @@ body {
     transform: translateX(-50%) translateY(-50%);
     overflow: hidden;
 }
-#moonCanvas {
-    display: block;
-    width: 44px; height: 44px;
+.moon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
     border-radius: 50%;
+    box-shadow: inset -5px -3px 0 rgba(0,0,0,0.42);
+    pointer-events: none;
+    z-index: 5;
+    animation: counter-moon-spin 50s linear infinite;
+}
+@keyframes counter-moon-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(-360deg); }
 }
 @keyframes moon-spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
 
@@ -757,17 +861,22 @@ footer .footer-logo {
         margin: 0 auto;
         transform: none;
     }
-    .planet-body,
-    #globeCanvas {
+    .planet-body {
         width: 220px;
         height: 220px;
+    }
+    .kz-planet-scaler {
+        transform: scale(0.52381);
     }
     .moon-orbit {
         width: 360px;
         height: 360px;
     }
-    .moon,
-    #moonCanvas {
+    .moon {
+        width: 34px;
+        height: 34px;
+    }
+    .moon img {
         width: 34px;
         height: 34px;
     }

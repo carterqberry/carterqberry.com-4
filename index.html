@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>carterqberry.com</title>
-    <link rel="icon" type="png" href="images/earth_favicon3.png">
+    <link rel="icon" type="png" href="images/earth-favicon4.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
@@ -19,7 +19,10 @@
 
     <header class="header" id="siteHeader">
         <a href="#" class="logo">
-            <div class="logo-planet"></div>
+            <div class="logo-moon-wrap">
+                <img src="images/kurz-like-moon.png" class="logo-planet" alt="" />
+                <div class="logo-moon-shadow"></div>
+            </div>
             Carter Q.
         </a>
         <nav class="nav">
@@ -37,7 +40,7 @@
                     GIS Enjoyer &amp; Cartographer
                 </div>
                 <h1>Hi, I'm<br><em>Carter.</em></h1>
-                <p class="hero-tagline">I love maps, the Earth, maps of the Earth—and even maps that aren't. Welcome to my portfolio :)</p>
+                <p class="hero-tagline">I love maps, the Earth, and maps of the Earth (and even maps that aren't). Welcome to my portfolio :)</p>
                 <a href="#contact" class="hero-cta">
                     <i class="fa-regular fa-envelope" style="font-size:0.8em"></i> Say Hello
                 </a>
@@ -46,25 +49,58 @@
             <div class="hero-planet-wrap">
                 <div class="planet-glow"></div>
 
-                <!-- Concentric circle outlines (replacing ring system) -->
-                <div class="planet-circles">
-                    <div class="planet-circle"></div>
-                    <div class="planet-circle"></div>
-                    <div class="planet-circle"></div>
-                    <div class="planet-circle"></div>
-                    <div class="planet-circle"></div>
-                </div>
-
-                <!-- Orbiting 3D moon -->
+                <!-- Orbiting moon -->
                 <div class="moon-orbit">
                     <div class="moon">
-                        <canvas id="moonCanvas" width="88" height="88"></canvas>
+                        <img src="images/kurz-like-moon.png" style="width:80px;height:80px;display:block;margin:-18px;" />
                     </div>
                 </div>
 
-                <!-- Planet -->
+                <!-- Planet (Kurzgesagt style) -->
                 <div class="planet-body">
-                    <canvas id="globeCanvas" width="580" height="580"></canvas>
+                    <div class="kz-planet-scaler">
+                        <div class="planet">
+
+                            <div class="continents">
+                                <img src="images/kurzgesagt-style-continents3.png" style="position:absolute;top:-30px;left:0;width:620px;height:450px;object-fit:fill;" />
+                                <img src="images/kurzgesagt-style-continents3.png" style="position:absolute;top:-30px;left:620px;width:620px;height:450px;object-fit:fill;" />
+                            </div>
+
+                            <div class="clouds">
+                                <div class="cloud cl1"><i></i><i></i><i class="shadow"></i><i></i><i></i></div>
+                                <div class="cloud cl2"><i></i><i></i><i class="shadow"></i><i></i></div>
+                                <div class="cloud cl3"><i></i><i></i><i class="shadow"></i><i></i><i></i><i></i></div>
+                                <div class="cloud cl4"><i></i><i class="shadow"></i><i></i></div>
+                                <div class="cloud cl5"><i></i><i></i><i class="shadow"></i><i></i><i></i></div>
+                                <div class="cloud cl6"><i></i><i></i><i class="shadow"></i><i></i></div>
+                                <div class="cloud cl7"><i></i><i></i><i class="shadow"></i><i></i><i></i></div>
+                                <div class="cloud cl8"><i></i><i></i><i class="shadow"></i></div>
+                                <div class="cloud cl9"><i></i><i></i><i class="shadow"></i><i></i></div>
+                                <div class="cloud cl10"><i></i><i></i><i class="shadow"></i><i></i></div>
+                                <div class="cloud cl11"><i></i><i></i></div>
+                                <div class="cloud cl12"><i></i><i></i></div>
+                                <div class="cloud cl1b"><i></i><i></i><i class="shadow"></i><i></i><i></i></div>
+                                <div class="cloud cl2b"><i></i><i></i><i class="shadow"></i><i></i></div>
+                                <div class="cloud cl3b"><i></i><i></i><i class="shadow"></i><i></i><i></i><i></i></div>
+                                <div class="cloud cl4b"><i></i><i class="shadow"></i><i></i></div>
+                                <div class="cloud cl5b"><i></i><i></i><i class="shadow"></i><i></i><i></i></div>
+                                <div class="cloud cl6b"><i></i><i></i><i class="shadow"></i><i></i></div>
+                                <div class="cloud cl7b"><i></i><i></i><i class="shadow"></i><i></i><i></i></div>
+                                <div class="cloud cl8b"><i></i><i></i><i class="shadow"></i></div>
+                                <div class="cloud cl9b"><i></i><i></i><i class="shadow"></i><i></i></div>
+                                <div class="cloud cl10b"><i></i><i></i><i class="shadow"></i><i></i></div>
+                                <div class="cloud cl11b"><i></i><i></i></div>
+                                <div class="cloud cl12b"><i></i><i></i></div>
+                            </div>
+
+                            <svg style="position:absolute;inset:0;pointer-events:none;z-index:10" viewBox="0 0 420 420">
+                                <path d="M 164 5 A 210 210 0 0 0 164 415 A 213 213 0 0 1 164 5 Z" fill="rgb(165,252,229)" transform="rotate(18, 210, 210)"/>
+                                <ellipse cx="138" cy="128" rx="128" ry="88" fill="white" fill-opacity="0.11" transform="rotate(-40, 138, 128)"/>
+                                <ellipse cx="118" cy="110" rx="64" ry="44" fill="white" fill-opacity="0.11" transform="rotate(-40, 118, 110)"/>
+                            </svg>
+
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -81,6 +117,42 @@
 
             <div class="portfolio-wrapper">
                 <div class="portfolio-row" id="portfolioRow">
+
+                    <div class="portfolio-item">
+                        <div class="map-preview">
+                            <img src="images/portfolio/Traffic Signal Map.jpg" alt="Traffic Signals in Saratoga Springs">
+                        </div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title">Traffic Signals in Saratoga Springs</h3>
+                            <p class="portfolio-date">January 2026 · Saratoga Springs, UT</p>
+                            <p class="portfolio-description">Mapping city and UDOT-owned traffic signals throughout Saratoga Springs to support infrastructure planning and traffic management.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">ArcGIS Pro</span><span class="tech-tag">Infrastructure</span><span class="tech-tag">Traffic Analysis</span></div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="map-preview">
+                            <img src="images/portfolio/USPS Offices &amp; Population Congressional District 4 North.png" alt="USPS Offices &amp; Population, Congressional District 4">
+                        </div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title">USPS Offices &amp; Population, Congressional District 4</h3>
+                            <p class="portfolio-date">April 2025 · North Utah</p>
+                            <p class="portfolio-description">Mapping USPS post office locations and service populations within Utah's Congressional District 4, visualizing postal service coverage relative to population density.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">Demographics</span><span class="tech-tag">Postal Services</span><span class="tech-tag">Census Data</span></div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="map-preview">
+                            <img src="images/portfolio/USPS Post Offices Utah County Population Map v3.png" alt="USPS Post Offices, North Utah County">
+                        </div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title">USPS Post Offices, North Utah County</h3>
+                            <p class="portfolio-date">March 2025 · Utah County</p>
+                            <p class="portfolio-description">Analyzing Lehi Post Office service area across four zip codes, serving 231,622 residents in Lehi, Saratoga Springs, Eagle Mountain, and Cedar Fort.</p>
+                            <div class="portfolio-tech"><span class="tech-tag">Population Analysis</span><span class="tech-tag">Postal Services</span><span class="tech-tag">Service Area</span></div>
+                        </div>
+                    </div>
 
                     <div class="portfolio-item">
                         <div class="map-preview">
