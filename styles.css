@@ -563,6 +563,28 @@ section { position: relative; z-index: 1; }
     }
 }
 
+/* Portrait-orientation map cards (narrower to show full vertical map) */
+.portfolio-item.portrait {
+    flex: 0 0 295px;
+}
+.portfolio-item.portrait .map-preview {
+    height: auto;
+    aspect-ratio: 17 / 22;
+}
+@media (min-width: 768px) {
+    .portfolio-item.portrait {
+        width: 295px;
+    }
+}
+@media (max-width: 768px) {
+    .portfolio-item.portrait {
+        flex: 0 0 220px;
+    }
+    .portfolio-item.portrait .map-preview {
+        height: auto;
+    }
+}
+
 .portfolio-scrollbar { margin-top: 16px; padding: 0 4px; }
 .ps-track {
     height: 4px; background: var(--rim); position: relative;
