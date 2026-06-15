@@ -458,7 +458,7 @@ section { position: relative; z-index: 1; }
 .portfolio-row::-webkit-scrollbar { display: none; }
 
 .portfolio-item {
-    flex: 0 0 520px;
+    flex: 0 0 430px;
     background: var(--panel);
     border: 1px solid var(--rim);
     border-radius: 16px; overflow: hidden;
@@ -471,7 +471,7 @@ section { position: relative; z-index: 1; }
 }
 
 .map-preview {
-    height: 315px; overflow: hidden;
+    height: 265px; overflow: hidden;
     position: relative; background: var(--deep);
 }
 .map-preview img {
@@ -491,7 +491,7 @@ section { position: relative; z-index: 1; }
     color: var(--accent2);
 }
 
-.portfolio-content { padding: 20px 22px 24px; }
+.portfolio-content { padding: 20px 22px 14px; }
 
 .portfolio-title {
     font-size: 0.95rem; font-weight: 600;
@@ -505,7 +505,7 @@ section { position: relative; z-index: 1; }
 
 .portfolio-description {
     font-size: 0.82rem; color: var(--mist); line-height: 1.65;
-    margin-bottom: 16px;
+    margin-bottom: 0;
     display: -webkit-box; -webkit-line-clamp: 3;
     -webkit-box-orient: vertical; overflow: hidden;
 }
@@ -525,13 +525,13 @@ section { position: relative; z-index: 1; }
 @media (min-width: 768px) {
     .portfolio-item {
         flex: 0 0 auto;
-        width: 500px;
+        width: 400px;
         border-radius: 12px;
         overflow: hidden;
     }
 
     .map-preview {
-        height: 385px;
+        height: 305px;
         display: flex;
         align-items: center;
         justify-content: center;
