@@ -200,6 +200,11 @@ body {
     display: flex; align-items: center; justify-content: center;
     width: 420px; height: 420px;
     transform: translateX(-100px);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+.hero-planet-wrap.loaded {
+    opacity: 1;
 }
 
 /* Ambient glow behind planet */

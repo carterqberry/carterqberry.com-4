@@ -1,3 +1,20 @@
+// ── HERO PLANET: reveal only once every image has loaded ──────────────────────
+(function() {
+    const wrap = document.querySelector('.hero-planet-wrap');
+    if (!wrap) return;
+    const imgs = wrap.querySelectorAll('img');
+    let remaining = imgs.length;
+    if (remaining === 0) { wrap.classList.add('loaded'); return; }
+    function done() {
+        remaining--;
+        if (remaining <= 0) wrap.classList.add('loaded');
+    }
+    imgs.forEach(img => {
+        if (img.complete) done();
+        else { img.addEventListener('load', done); img.addEventListener('error', done); }
+    });
+})();
+
 // ── EMAIL OBFUSCATION ─────────────────────────────────────────────────────────
 const user = "carterqberry";
 const domain = "gmail.com";
